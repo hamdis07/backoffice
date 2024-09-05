@@ -1,0 +1,67 @@
+<form [formGroup]="updateAdminForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="nom">Nom:</label>
+    <input id="nom" formControlName="nom" type="text">
+  </div>
+  <div>
+    <label for="prenom">Prenom:</label>
+    <input id="prenom" formControlName="prenom" type="text">
+  </div>
+  <div>
+    <label for="genre">Genre:</label>
+    <select id="genre" formControlName="genre">
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+  <div>
+    <label for="date_de_naissance">Date de Naissance:</label>
+    <input id="date_de_naissance" formControlName="date_de_naissance" type="date">
+  </div>
+  <div>
+    <label for="addresse">Addresse:</label>
+    <input id="addresse" formControlName="addresse" type="text">
+  </div>
+  <div>
+    <label for="occupation">Occupation:</label>
+    <input id="occupation" formControlName="occupation" type="text">
+  </div>
+  <div>
+    <label for="etat_social">Etat Social:</label>
+    <input id="etat_social" formControlName="etat_social" type="text">
+  </div>
+  <div>
+    <label for="numero_telephone">Numero Telephone:</label>
+    <input id="numero_telephone" formControlName="numero_telephone" type="text">
+  </div>
+  <div>
+    <label for="user_name">Username:</label>
+    <input id="user_name" formControlName="user_name" type="text">
+  </div>
+  <div>
+    <label for="email">Email:</label>
+    <input id="email" formControlName="email" type="email">
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input id="password" formControlName="password" type="password">
+  </div>
+  <div>
+    <label for="user_image">User Image:</label>
+    <input id="user_image" type="file" (change)="onFileChange($event)">
+  </div>
+  <div>
+    <label for="role">Role:</label>
+    <select id="role" formControlName="role">
+      <option value="admin">Admin</option>
+      <option value="superadmin">Superadmin</option>
+      <option value="client">Client</option>
+      <option value="operateur">Operateur</option>
+      <option value="dispatcheur">Dispatcheur</option>
+      <option value="responsable_marketing">Responsable Marketing</option>
+    </select>
+  </div>
+  
+  <button type="submit">Update Admin</button>
+</form>

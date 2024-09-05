@@ -1,0 +1,66 @@
+<div>
+  <form (ngSubmit)="addAdmin()" #adminForm="ngForm">
+    <div>
+      <label for="nom">Nom:</label>
+      <input type="text" [(ngModel)]="admin.nom" name="nom" required placeholder="Nom" />
+    </div>
+    <div>
+      <label for="prenom">Prenom:</label>
+      <input type="text" [(ngModel)]="admin.prenom" name="prenom" required placeholder="Prenom" />
+    </div>
+    <div>
+      <label for="genre">Genre:</label>
+      <select [(ngModel)]="admin.genre" name="genre" required>
+        <option value="" disabled selected>Select Genre</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+        <option value="femme">Femme</option>
+        <option value="homme">Homme</option>
+        <option value="autre">Autre</option>
+      </select>
+    </div>
+    <div>
+      <label for="date_de_naissance">Date de Naissance:</label>
+      <input type="date" [(ngModel)]="admin.date_de_naissance" name="date_de_naissance" required />
+    </div>
+    <div>
+      <label for="addresse">Addresse:</label>
+      <input type="text" [(ngModel)]="admin.addresse" name="addresse" required placeholder="Addresse" />
+    </div>
+    <div>
+      <label for="occupation">Occupation:</label>
+      <input type="text" [(ngModel)]="admin.occupation" name="occupation" required placeholder="Occupation" />
+    </div>
+    <div>
+      <label for="etat_social">État Social:</label>
+      <input type="text" [(ngModel)]="admin.etat_social" name="etat_social" required placeholder="État Social" />
+    </div>
+    <div>
+      <label for="numero_telephone">Numéro de Téléphone:</label>
+      <input type="text" [(ngModel)]="admin.numero_telephone" name="numero_telephone" required placeholder="Numéro de Téléphone" />
+    </div>
+    <div>
+      <label for="user_name">Nom d'utilisateur:</label>
+      <input type="text" [(ngModel)]="admin.user_name" name="user_name" required placeholder="Nom d'utilisateur" />
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" [(ngModel)]="admin.email" name="email" required placeholder="Email" />
+    </div>
+    <div>
+      <label for="password">Mot de passe:</label>
+      <input type="password" [(ngModel)]="admin.password" name="password" required placeholder="Mot de passe" />
+    </div>
+    <div>
+      <label for="role">Role:</label>
+      <input type="text" [(ngModel)]="admin.role" name="role" required placeholder="Role" />
+    </div>
+    <div>
+      <label for="user_image">Image:</label>
+      <input type="file" (change)="onFileSelected($event)" name="user_image" />
+    </div>
+    <button type="submit">Add Admin</button>
+  </form>
+  <div *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>

@@ -1,0 +1,76 @@
+<mat-sidenav-container fullscreen>
+    <mat-sidenav #sidenav mode="side" class="example-sidenav" opened="true">
+        <div class="logomain">Logo Part</div>
+        <mat-nav-list>
+            <a routerLinkActive="active" class="nav-link" routerLink="dashboard">
+                <mat-icon mat-list-icon>dashboard</mat-icon>
+                <p>Tableau de bord</p>
+            </a>
+            <a routerLinkActive="active" class="nav-link" routerLink="admins">
+                <mat-icon mat-list-icon>group</mat-icon>
+                <p>Liste des administrateurs</p>
+            </a>
+            <a routerLinkActive="active" class="nav-link" routerLink="clients">
+                <mat-icon mat-list-icon>person</mat-icon>
+                <p>Liste des clients</p>
+            </a>
+            <a routerLinkActive="active" class="nav-link" routerLink="produit">
+                <mat-icon mat-list-icon>person</mat-icon>
+                <p>Liste des produits</p>
+            </a>
+            <a routerLinkActive="active" class="nav-link" routerLink="depots">
+                <mat-icon mat-list-icon>person</mat-icon>
+                <p>Liste des depots</p>
+            </a>
+            <a routerLinkActive="active" class="nav-link" routerLink="messages">
+                <mat-icon mat-list-icon>person</mat-icon>
+                <p>Liste des messages</p>
+            </a>
+
+            <a routerLinkActive="active" class="nav-link" routerLink="promos">
+                <mat-icon mat-list-icon>person</mat-icon>
+                <p>les promos </p>
+            </a>
+
+            <a routerLinkActive="active" class="nav-link" routerLink="clients">
+                <mat-icon mat-list-icon>person</mat-icon>
+                <p>Liste des commandes </p>
+            </a>
+
+
+        </mat-nav-list>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <div class="side-nav-content">
+            <mat-toolbar color="primary">
+                <button mat-icon-button aria-label="Menu" (click)="sidenav.toggle()">
+                    <mat-icon>menu</mat-icon>
+                </button>
+                <span class="spacer"></span>
+                <!-- User info section -->
+                <div class="user-info">
+                  <!---- <img class="user-photo" src="path_to_user_photo.jpg" alt="User Photo"> -->
+                    <span class="user-name"></span>
+                </div>
+                <a routerLinkActive="active" class="nav-link" routerLink="login">
+                    <mat-icon mat-list-icon>group</mat-icon>
+                    <p>connectez-vous</p>
+                </a>
+                <a routerLinkActive="active" class="nav-link" routerLink="register">
+                    <mat-icon mat-list-icon>group</mat-icon>
+                    <p>register</p>
+                </a>
+
+                <a routerLinkActive="active" class="nav-link" routerLink="logout">
+                    <mat-icon mat-list-icon>group</mat-icon>
+                    <p>logout</p>
+                </a>
+
+
+            </mat-toolbar>
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

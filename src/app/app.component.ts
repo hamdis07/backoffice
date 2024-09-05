@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+//import { HttpClient } from '@angular/common/http';
+
 
 @Component({
+
+
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  template: `
-    <h1>Welcome to {{title}}!</h1>
+//  providers: [HttpClient], // Added here
 
+  template: `
     <router-outlet />
   `,
   styles: [],

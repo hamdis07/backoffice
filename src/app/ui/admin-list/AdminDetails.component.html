@@ -1,0 +1,26 @@
+<div *ngIf="adminData">
+  <h2>Admin Details</h2>
+  <p>ID: {{ adminData.id }}</p>
+  <p>Name: {{ adminData.nom }}</p>
+  <p>First Name: {{ adminData.prenom }}</p>
+  <p>Gender: {{ adminData.genre }}</p>
+  <p>Date of Birth: {{ adminData.date_de_naissance | date:'longDate' }}</p>
+  <p>Address: {{ adminData.Addresse }}</p>
+  <p>Occupation: {{ adminData.occupation }}</p>
+  <p>Social Status: {{ adminData.etat_social }}</p>
+  <p>Phone Number: {{ adminData.numero_telephone }}</p>
+  <p>Username: {{ adminData.user_name }}</p>
+  <p>Email: {{ adminData.email }}</p>
+  <p>Roles:</p>
+  <ul>
+    <li *ngFor="let role of adminData.roles">{{ role.name }}</li>
+  </ul>
+  <div *ngIf="adminData.user_image">
+    <p>User Image:</p>
+    <img [src]="adminData.user_image" alt="User Image" style="max-width: 150px; max-height: 150px;">
+  </div>
+
+
+  <button (click)="navigateToUpdateAdmin(adminData.id)">Update Admin</button>
+  <button (click)="deleteAdmin(adminData.id)">Delete Admin</button>
+</div>

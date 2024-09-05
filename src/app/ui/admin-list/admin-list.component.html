@@ -1,0 +1,32 @@
+<h2>Liste des Admins</h2>
+<button (click)="navigateToAddAdmin()">Ajouter un Admin</button>
+<input type="text" [(ngModel)]="search" placeholder="Rechercher..." />
+<button (click)="searchAdmins()">Rechercher</button>
+<table>
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Email</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let admin of admins">
+      <td>{{ admin.nom }}</td>
+      <td>{{ admin.email }}</td>
+      <td>
+        <button (click)="navigateToAdminDetails(admin.id)">afficher admin</button>
+        <button (click)="navigateToUpdateAdmin(admin.id)">Mettre à jour</button>
+        <button (click)="deleteAdmin(admin.id)">Supprimer</button>
+      </td>
+    </tr>
+    <tr *ngIf="admins.length === 0">
+      <td colspan="3">Aucun administrateur trouvé.</td>
+    </tr>
+  </tbody>
+</table>
+<div>
+  <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Précédent</button>
+  <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Suivant</button>
+</div>

@@ -1,0 +1,42 @@
+<div>
+    <form (ngSubmit)="applyFilters()">
+      <label for="categories">Categories:</label>
+      <input id="categories" [(ngModel)]="filters['categories']" name="categories">
+  
+      <label for="souscategories">Sous-categories:</label>
+      <input id="souscategories" [(ngModel)]="filters['souscategories']" name="souscategories">
+  
+      <label for="genre">Genre:</label>
+      <input id="genre" [(ngModel)]="filters['genre']" name="genre">
+  
+      <label for="min_price">Min Price:</label>
+      <input id="min_price" type="number" [(ngModel)]="filters['min_price']" name="min_price">
+  
+      <label for="max_price">Max Price:</label>
+      <input id="max_price" type="number" [(ngModel)]="filters['max_price']" name="max_price">
+  
+      <label for="color">Color:</label>
+      <input id="color" [(ngModel)]="filters['color']" name="color">
+  
+      <label for="size">Size:</label>
+      <input id="size" [(ngModel)]="filters['size']" name="size">
+  
+      <label for="keyword">Keyword:</label>
+      <input id="keyword" [(ngModel)]="filters['keyword']" name="keyword">
+  
+      <button type="submit">Apply Filters</button>
+    </form>
+  
+    <div *ngIf="produits.length">
+      <h2>Produits List</h2>
+      <ul>
+        <li *ngFor="let produit of produits">
+          {{ produit.name }} - {{ produit.price }}
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="!produits.length">
+      No produits found.
+    </div>
+  </div>
+  

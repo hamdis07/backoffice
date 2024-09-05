@@ -1,0 +1,55 @@
+/* add-admin.component.scss */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 1em;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background: #fff;
+  }
+
+  label {
+    margin-bottom: 1em;
+    color: #333;
+    font-weight: bold;
+    display: block;
+  }
+
+  input, select {
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    font-size: 1em;
+    border-radius: 5px;
+    width: calc(100% - 1em);
+    margin-bottom: 1em;
+  }
+
+  button {
+    padding: 0.7em 1.5em;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  h2 {
+    text-align: center;
+    color: #007bff;
+  }
+
+  @media (max-width: 600px) {
+    form {
+      padding: 0.5em;
+    }
+
+    input, button {
+      font-size: 0.9em;
+    }
+  }

@@ -1,0 +1,67 @@
+<div *ngIf="(produit$ | async) as produit">
+  <h2>Détails du produit</h2>
+  
+  <!-- Informations générales du produit -->
+  <div>
+    <p>{{ produit.produit.nom_produit }}</p>
+    <p><strong>Référence:</strong> {{ produit.produit.references }}</p>
+    <p><strong>Description:</strong> {{ produit.produit.description }}</p>
+    <p><strong>Prix initial:</strong> {{ produit.produit.prix_initial }} €</p>
+    <p><strong>Prix:</strong> {{ produit.produit.prix }} €</p>
+    <p><strong>Composition:</strong> {{ produit.produit.composition }}</p>
+    <p><strong>Entretien:</strong> {{ produit.produit.entretien }}</p>
+    <p><strong>Mots-clés:</strong> {{ produit.produit.mots_cles }}</p>
+    <p><strong>Catégorie:</strong> {{ produit.categories || 'Non spécifié' }}</p>
+    <p><strong>Sous-catégorie:</strong> {{ produit.souscategories || 'Non spécifié' }}</p>
+    <p><strong>Genre:</strong> {{ produit.genre || 'Non spécifié' }}</p>
+  
+    <p><strong>Date de création:</strong> {{ produit.produit.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
+    <p><strong>Date de mise à jour:</strong> {{ produit.produit.updated_at | date:'dd/MM/yyyy HH:mm' }}</p>
+  
+    <!-- URL de l'image -->
+    <div *ngIf="produit.produit.image_url">
+      <h3>Image URL</h3>
+      <img [src]="produit.produit.image_url" alt="Image du produit" style="max-width: 300px; max-height: 300px;" />
+    </div>
+  
+    <!-- Images -->
+    <div>
+      <h2>Images du produit</h2>
+      <div *ngFor="let image of produit.images">
+        <img [src]="image.url" [alt]="image.alt" style="max-width: 300px; max-height: 300px;"/>
+      </div>
+    </div>
+  
+    <!-- Quantités disponibles -->
+    <div>
+      <h2>Quantités disponibles</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Magasin</th>
+            <th>Quantité</th>
+            <th>Taille</th>
+            <th>Couleur</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let quantite of produit.quantites">
+            <td>{{ quantite.magasin }}</td>
+            <td>{{ quantite.quantite }}</td>
+            <td>{{ quantite.taille }}</td>
+            <td>{{ quantite.couleur }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Promo -->
+    <div *ngIf="produit.produit.promos">
+      <h3>Promotion</h3>
+      <p><strong>Nom:</strong> {{ produit.produit.promos.nom }}</p>
+      <p><strong>Réduction:</strong> {{ produit.produit.promos.pourcentage_reduction }}%</p>
+      <p><strong>Date de début:</strong> {{ produit.produit.promos.date_debut | date }}</p>
+      <p><strong>Date de fin:</strong> {{ produit.produit.promos.date_fin | date }}</p>
+    </div>
+  </div>
+</div>
