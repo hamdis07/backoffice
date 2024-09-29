@@ -1,35 +1,48 @@
-<div>
-    <div style="display: block;">
-      <canvas baseChart
-        [data]="revenueChartData"
-        [options]="revenueChartOptions"
-        [legend]="revenueChartLegend"
-        [type]="revenueChartType">
-      </canvas>
-    </div>
-    <div style="display: block;">
-      <canvas baseChart
-        [data]="ordersChartData"
-        [options]="ordersChartOptions"
-        [legend]="ordersChartLegend"
-        [type]="ordersChartType">
-      </canvas>
-    </div>
-    <div style="display: block;">
-      <canvas baseChart
-        [data]="productsChartData"
-        [options]="productsChartOptions"
-        [legend]="productsChartLegend"
-        [type]="productsChartType">
-      </canvas>
-    </div>
-    <div style="display: block;">
-      <canvas baseChart
-        [data]="customersChartData"
-        [options]="customersChartOptions"
-        [legend]="customersChartLegend"
-        [type]="customersChartType">
-      </canvas>
-    </div>
+<div class="dashboard-container">
+  <h1>Dashboard</h1>
+  
+  <div class="stat-block">
+    <h2>Total Revenue</h2>
+    <p>{{ totalRevenue | currency }}</p>
   </div>
   
+  <div class="stat-block">
+    <h2>Daily Visits</h2>
+    <p>{{ dailyVisits }}</p>
+  </div>
+  
+  <div class="stat-block">
+    <h2>Conversion Rate</h2>
+    <p>{{ conversionRate * 100 | number: '1.2-2' }}%</p>
+  </div>
+
+  <!-- Graph for Orders per Day -->
+  <div class="chart-container">
+    <h3>Commandes par Jour</h3>
+    <canvas baseChart
+      [data]="ordersPerDayChartData"
+      type="line"
+      [options]="{ responsive: true }">
+    </canvas>
+  </div>
+
+  <!-- Graph for Most Sold Products -->
+  <div class="chart-container">
+    <h3>Produits les plus vendus</h3>
+    <canvas baseChart
+      [data]="mostSoldProductsChartData"
+      type="bar"
+      [options]="{ responsive: true }">
+    </canvas>
+  </div>
+
+  <!-- Graph for Top Customers -->
+  <div class="chart-container">
+    <h3>Meilleurs clients</h3>
+    <canvas baseChart
+      [data]="topCustomersChartData"
+      type="bar"
+      [options]="{ responsive: true }">
+    </canvas>
+  </div>
+</div>

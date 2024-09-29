@@ -1,146 +1,177 @@
 <form [formGroup]="produitForm" (ngSubmit)="onSubmit()">
-  <!-- Informations Générales du Produit -->
-  <div>
-    <label for="references">Références :</label>
-    <input id="references" formControlName="references" type="text" />
+  <div class="form-group">
+    <label for="references">Référence</label>
+    <input id="references" formControlName="references" class="form-control" />
+    <div *ngIf="produitForm.get('references')?.invalid && produitForm.get('references')?.touched" class="text-danger">
+      Référence est requise.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="nom_produit">Nom du Produit</label>
+    <input id="nom_produit" formControlName="nom_produit" class="form-control" />
+    <div *ngIf="produitForm.get('nom_produit')?.invalid && produitForm.get('nom_produit')?.touched" class="text-danger">
+      Nom du produit est requis.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description" class="form-control"></textarea>
+    <div *ngIf="produitForm.get('description')?.invalid && produitForm.get('description')?.touched" class="text-danger">
+      Description est requise.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="prix_initial">Prix Initial</label>
+    <input id="prix_initial" formControlName="prix_initial" class="form-control" type="number" />
+    <div *ngIf="produitForm.get('prix_initial')?.invalid && produitForm.get('prix_initial')?.touched" class="text-danger">
+      Prix initial est requis et doit être supérieur à 0.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="composition">Composition</label>
+    <textarea id="composition" formControlName="composition" class="form-control"></textarea>
+    <div *ngIf="produitForm.get('composition')?.invalid && produitForm.get('composition')?.touched" class="text-danger">
+      Composition est requise.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="entretien">Entretien</label>
+    <textarea id="entretien" formControlName="entretien" class="form-control"></textarea>
+    <div *ngIf="produitForm.get('entretien')?.invalid && produitForm.get('entretien')?.touched" class="text-danger">
+      Entretien est requis.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="genre">Genre</label>
+    <input id="genre" formControlName="genre" class="form-control" />
+    <div *ngIf="produitForm.get('genre')?.invalid && produitForm.get('genre')?.touched" class="text-danger">
+      Genre est requis.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="categorie">Catégorie</label>
+    <input id="categorie" formControlName="categorie" class="form-control" />
+    <div *ngIf="produitForm.get('categorie')?.invalid && produitForm.get('categorie')?.touched" class="text-danger">
+      Catégorie est requise.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="sous_categorie">Sous-Catégorie</label>
+    <input id="sous_categorie" formControlName="sous_categorie" class="form-control" />
+    <div *ngIf="produitForm.get('sous_categorie')?.invalid && produitForm.get('sous_categorie')?.touched" class="text-danger">
+      Sous-catégorie est requise.
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="mots_cles">Mots Clés</label>
+    <input id="mots_cles" formControlName="mots_cles" class="form-control" />
   </div>
   <div>
-    <label for="nom_produit">Nom du Produit :</label>
-    <input id="nom_produit" formControlName="nom_produit" type="text" />
-  </div>
-  <div>
-    <label for="description">Description :</label>
-    <textarea id="description" formControlName="description"></textarea>
-  </div>
-  <div>
-    <label for="prix_initial">Prix Initial :</label>
-    <input id="prix_initial" formControlName="prix_initial" type="number" />
-  </div>
-  <div>
-    <label for="composition">Composition :</label>
-    <input id="composition" formControlName="composition" type="text" />
-  </div>
-  <div>
-    <label for="entretien">Entretien :</label>
-    <input id="entretien" formControlName="entretien" type="text" />
-  </div>
-  <div>
-    <label for="genre">Genre :</label>
-    <input id="genre" formControlName="genre" type="text" />
-  </div>
-  <div>
-    <label for="categorie">Catégorie :</label>
-    <input id="categorie" formControlName="categorie" type="text" />
-  </div>
-  <div>
-    <label for="sous_categorie">Sous-Catégorie :</label>
-    <input id="sous_categorie" formControlName="sous_categorie" type="text" />
-  </div>
-  <div>
-    <label for="mots_cles">Mots Clés :</label>
-    <input id="mots_cles" formControlName="mots_cles" type="text" />
-  </div>
-  <div>
-    <label for="images">Images :</label>
-    <input type="file" (change)="onFileChange($event, 'images')" multiple />
-  </div>
-  <div>
-    <label for="image_url">URL Image :</label>
-    <input type="file" (change)="onFileChange($event, 'image_url')" />
-  </div>
-  
-  <!-- Gestion des Magasins -->
+  <label for="images">Images :</label>
+  <input type="file" (change)="onFileChange($event, 'images')" multiple />
+</div>
+<div>
+  <label for="image_url">URL Image :</label>
+  <input type="file" (change)="onFileChange($event, 'image_url')" />
+</div>
+
+
   <div formArrayName="magasins">
-    <div *ngFor="let magasin of magasins.controls; let i = index" [formGroupName]="i">
-      <h3>Magasin {{ i + 1 }}</h3>
-      <div>
-        <label for="nom">Nom du Magasin :</label>
-        <input id="nom" formControlName="nom" type="text" />
-      </div>
-      <div>
-        <label for="adresse">Adresse :</label>
-        <input id="adresse" formControlName="adresse" type="text" />
-      </div>
-      <div>
-        <label for="ville">Ville :</label>
-        <input id="ville" formControlName="ville" type="text" />
-      </div>
-      <div>
-        <label for="code_postal">Code Postal :</label>
-        <input id="code_postal" formControlName="code_postal" type="text" />
-      </div>
-      <div>
-        <label for="responsable">Responsable :</label>
-        <input id="responsable" formControlName="responsable" type="text" />
-      </div>
-      <div>
-        <label for="telephone">Téléphone :</label>
-        <input id="telephone" formControlName="telephone" type="text" />
+    <div *ngFor="let magasin of magasins.controls; let magasinIndex = index" [formGroupName]="magasinIndex">
+      <div class="form-group">
+        <label for="magasin_nom_{{magasinIndex}}">Nom du Magasin</label>
+        <input id="magasin_nom_{{magasinIndex}}" formControlName="nom" class="form-control" />
       </div>
 
-      <!-- Tailles -->
-      <div formArrayName="tailles">
-        <div *ngFor="let taille of getTaille(i).controls; let j = index" [formGroupName]="j">
-          <h4>Taille {{ j + 1 }}</h4>
-          <div>
-            <label for="taille_nom">Taille :</label>
-            <input id="taille_nom" formControlName="nom" type="text" />
-          </div>
-          
-          <!-- Couleurs -->
-          <div formArrayName="couleurs">
-            <div *ngFor="let couleur of getCouleur(i, j).controls; let k = index" [formGroupName]="k">
-              <div>
-                <label for="couleur_nom">Couleur :</label>
-                <input id="couleur_nom" formControlName="nom" type="text" />
-              </div>
-              
-              <div>
-                <label for="quantite">Quantité :</label>
-                <input id="quantite" formControlName="quantite" type="number" />
-              </div>
-              
-              <button type="button" (click)="removeCouleur(i, j, k)">Supprimer Couleur</button>
-            </div>
-            
-            <button type="button" (click)="addCouleur(i, j)">Ajouter Couleur</button>
-          </div>
-          
-          <button type="button" (click)="removeTaille(i, j)">Supprimer Taille</button>
-        </div>
-        
-        <button type="button" (click)="addTaille(i)">Ajouter Taille</button>
+      <div class="form-group">
+        <label for="magasin_adresse_{{magasinIndex}}">Adresse</label>
+        <input id="magasin_adresse_{{magasinIndex}}" formControlName="adresse" class="form-control" />
       </div>
-      
-      <button type="button" (click)="removeMagasin(i)">Supprimer Magasin</button>
+
+      <div class="form-group">
+        <label for="magasin_ville_{{magasinIndex}}">Ville</label>
+        <input id="magasin_ville_{{magasinIndex}}" formControlName="ville" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="magasin_code_postal_{{magasinIndex}}">Code Postal</label>
+        <input id="magasin_code_postal_{{magasinIndex}}" formControlName="code_postal" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="magasin_responsable_{{magasinIndex}}">Responsable</label>
+        <input id="magasin_responsable_{{magasinIndex}}" formControlName="responsable" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <label for="magasin_telephone_{{magasinIndex}}">Téléphone</label>
+        <input id="magasin_telephone_{{magasinIndex}}" formControlName="telephone" class="form-control" />
+      </div>
+
+      <div formArrayName="tailles">
+        <div *ngFor="let taille of getTaille(magasinIndex).controls; let tailleIndex = index" [formGroupName]="tailleIndex">
+          <div class="form-group">
+            <label for="taille_nom_{{magasinIndex}}_{{tailleIndex}}">Nom de la Taille</label>
+            <input id="taille_nom_{{magasinIndex}}_{{tailleIndex}}" formControlName="nom" class="form-control" />
+          </div>
+
+          <div formArrayName="couleurs">
+            <div *ngFor="let couleur of getCouleur(magasinIndex, tailleIndex).controls; let couleurIndex = index" [formGroupName]="couleurIndex">
+              <div class="form-group">
+                <label for="couleur_nom_{{magasinIndex}}_{{tailleIndex}}_{{couleurIndex}}">Nom de la Couleur</label>
+                <input id="couleur_nom_{{magasinIndex}}_{{tailleIndex}}_{{couleurIndex}}" formControlName="nom" class="form-control" />
+              </div>
+
+              <div class="form-group">
+                <label for="couleur_quantite_{{magasinIndex}}_{{tailleIndex}}_{{couleurIndex}}">Quantité</label>
+                <input id="couleur_quantite_{{magasinIndex}}_{{tailleIndex}}_{{couleurIndex}}" formControlName="quantite" class="form-control" type="number" />
+              </div>
+            </div>
+            <button type="button" (click)="addCouleur(magasinIndex, tailleIndex)">Ajouter Couleur</button>
+          </div>
+          <button type="button" (click)="removeTaille(magasinIndex, tailleIndex)">Supprimer Taille</button>
+        </div>
+        <button type="button" (click)="addTaille(magasinIndex)">Ajouter Taille</button>
+      </div>
+
+      <button type="button" (click)="removeMagasin(magasinIndex)">Supprimer Magasin</button>
     </div>
-    
     <button type="button" (click)="addMagasin()">Ajouter Magasin</button>
   </div>
-  
-  <!-- Promotions -->
+
   <div formGroupName="promo">
-    <div>
-      <label for="promo_nom">Nom de la Promo :</label>
-      <input id="promo_nom" formControlName="nom" type="text" />
+    <div class="form-group">
+      <label for="promo_nom">Nom de la Promotion</label>
+      <input id="promo_nom" formControlName="nom" class="form-control" />
     </div>
-    
-    <div>
-      <label for="pourcentage_reduction">Pourcentage de Réduction :</label>
-      <input id="pourcentage_reduction" formControlName="pourcentage_reduction" type="number" />
+
+    <div class="form-group">
+      <label for="date_debut">Date de Début</label>
+      <input id="date_debut" formControlName="date_debut" type="date" class="form-control" />
     </div>
-    
-    <div>
-      <label for="date_debut">Date de Début :</label>
-      <input id="date_debut" formControlName="date_debut" type="date" />
+
+    <div class="form-group">
+      <label for="date_fin">Date de Fin</label>
+      <input id="date_fin" formControlName="date_fin" type="date" class="form-control" />
     </div>
-    
-    <div>
-      <label for="date_fin">Date de Fin :</label>
-      <input id="date_fin" formControlName="date_fin" type="date" />
+
+    <div class="form-group">
+      <label for="pourcentage_reduction">Pourcentage de Réduction</label>
+      <input id="pourcentage_reduction" formControlName="pourcentage_reduction" type="number" class="form-control" />
+      <div *ngIf="produitForm.get('promo.pourcentage_reduction')?.invalid && produitForm.get('promo.pourcentage_reduction')?.touched" class="text-danger">
+        Pourcentage de réduction est requis et doit être compris entre 0 et 100.
+      </div>
     </div>
   </div>
-  
-  <!-- Bouton de Soumission -->
-  <button type="submit">Modifier Produit</button>
+
+  <button type="submit" class="btn btn-primary" [disabled]="!produitForm.valid">Enregistrer</button>
 </form>

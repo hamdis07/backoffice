@@ -1,75 +1,93 @@
-<div *ngIf="errorMessage" class="error">
-  {{ errorMessage }}
+<div class="produits-list-container">
+  <h2>Liste des Produits</h2>
+  <div class="actions-bar">
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="search"
+        placeholder="Rechercher un produit"
+        class="search-input"
+      />
+      <button (click)="searchProduits(search)" class="search-button">
+        Rechercher
+      </button>
+    </div>
+    <button (click)="navigateToAjouterProduit()" class="add-button">
+      + Ajouter Produit
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <div *ngIf="produits.length === 0">
+    Aucuns produits disponibles.
+  </div>
+
+  <table *ngIf="produits.length > 0" class="admin-table">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Prix</th>
+        <th>Prix initial</th>
+        <th>Référence</th>
+        <th>Actions</th>
+        <th>Statut</th>
+        <th>Mise en avant</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let produit of produits">
+        <td>{{ produit.nom_produit }}</td>
+        <td>{{ produit.description }}</td>
+        <td>{{ produit.prix }}</td>
+        <td>{{ produit.prix_initial }}</td>
+        <td>{{ produit.references }}</td>
+        <td class="actions-cell">
+          <button
+            (click)="openDialog(produit.id)"
+            class="action-button"
+          >
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button (click)="supprimerProduit(produit.id)" class="action-button">
+            <i class="fa fa-trash"></i>
+          </button>
+          <button (click)="navigateToProduitDetails(produit.id)" class="action-button">
+            <i class="fa fa-eye"></i> <!-- Modification ici pour l'icône fa-eye -->
+          </button>
+        </td>
+        <td>
+          <button (click)="toggleVisibility(produit.id, produit.isHidden)" [class.active]="produit.isHidden">
+            {{ produit.isHidden ? 'Show' : 'Hide' }}
+          </button>
+        </td>
+        <!-- Feature button -->
+        <td>
+          <button (click)="toggleFeature(produit.id, produit.isFeatured)" [class.active]="produit.isFeatured">
+            {{ produit.isFeatured ? 'Unfeature' : 'Feature' }}
+          </button>
+        </td>
+        
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="pagination-button"
+    >
+      Précédent
+    </button>
+    <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+      class="pagination-button"
+    >
+      Suivant
+    </button>
+  </div>
 </div>
-
-<div *ngIf="produits.length === 0">
-  Aucuns produits disponibles.
-</div>
-
-<ul *ngIf="produits.length > 0">
-  <li *ngFor="let produit of produits">
-    <h2>{{ produit.nom_produit }}</h2>
-    <p>{{ produit.description }}</p>
-    <p>Prix: {{ produit.prix }}</p>
-    <p>Référence: {{ produit.references }}</p>
-
-    <!-- Affichage des images du produit -->
-    <div>
-      <h3>Image Principale:</h3>
-      <img *ngIf="produit.image_url" [src]="produit.image_url" alt="{{ produit.nom_produit }}" />
-      <div *ngIf="!produit.image_url">
-        Aucune image principale disponible pour ce produit.
-      </div>
-    </div>
-
-    <!-- Affichage des images supplémentaires du produit -->
-    <div>
-      <h3>Images Supplémentaires:</h3>
-      <div *ngIf="produit.images && produit.images.length > 0">
-        <img *ngFor="let image of produit.images" [src]="image.url" [alt]="image.alt" />
-      </div>
-      <div *ngIf="!produit.images || produit.images.length === 0">
-        Aucune image supplémentaire disponible pour ce produit.
-      </div>
-    </div>
-
-    <!-- Affichage des quantités disponibles par magasin -->
-    <div *ngFor="let quantite of produit.quantites">
-      <p>Magasin: {{ quantite.magasin.nom }}</p>
-      <p>Taille: {{ quantite.taille.nom }}</p>
-      <p>Couleur: {{ quantite.couleur.nom }}</p>
-      <p>Quantité: {{ quantite.quantite }}</p>
-    </div>
-
-    <!-- Affichage des tailles disponibles -->
-    <div *ngIf="produit.tailles && produit.tailles.length > 0">
-      <h3>Tailles Disponibles:</h3>
-      <ul>
-        <li *ngFor="let taille of produit.tailles">{{ taille.nom }}</li>
-      </ul>
-    </div>
-
-    <!-- Affichage des couleurs disponibles -->
-    <div *ngIf="produit.couleurs && produit.couleurs.length > 0">
-      <h3>Couleurs Disponibles:</h3>
-      <ul>
-        <li *ngFor="let couleur of produit.couleurs">{{ couleur.nom }}</li>
-      </ul>
-    </div>
-
-    <!-- Affichage des promotions -->
-    <div *ngIf="produit.promotion">
-      <h3>Promotion:</h3>
-      <p>Nom: {{ produit.promotion.nom }}</p>
-      <p>Réduction: {{ produit.promotion.pourcentage_reduction }}%</p>
-      <p>Date de début: {{ produit.promotion.date_debut | date }}</p>
-      <p>Date de fin: {{ produit.promotion.date_fin | date }}</p>
-    </div>
-
-    <button (click)="navigateToModifierProduit(produit.id)">Modifier</button>
-    <button (click)="supprimerProduit(produit.id)">Supprimer</button>
-    <button (click)="navigateToProduitDetails(produit.id)">Plus Détails</button>
-  </li>
-</ul>
-
-<button (click)="navigateToAjouterProduit()">Ajouter Produit</button>

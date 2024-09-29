@@ -1,8 +1,8 @@
 import { Categories } from './categories';
-import { Genre } from './genre';
+import { Genre } from './Genre';
 import { SousCategories } from './Souscategories';
-import { Taille } from './taille';
-import { Couleur } from './couleur';
+import { Taille } from './Taille';
+import { Couleur } from './Couleur';
 import { Promo } from './Promo';
 
 export interface Product {

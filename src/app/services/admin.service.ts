@@ -43,10 +43,14 @@ export class AdminService {
     return this.http.post<any>(`${this.apiUrl}/search-by-username`, { user_name: userName }, { headers: this.getHeaders() });
   }
 
-  rechercheradmin(filters: { nom?: string; prenom?: string; numero_telephone?: string }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/rechercher-admin`, filters, { headers: this.getHeaders() });
-  }
+  // admin.service.ts
+searchAdmins(filters: { user_name?: string; email?: string; nom?: string; prenom?: string; numero_telephone?: string }): Observable<any> {
+  return this.http.post<any>(`${this.apiUrl}/research`, filters, { headers: this.getHeaders() });
+}
 
+  updateAdminStatus(id: number, status: string): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/update-status/${id}`, { status }, { headers: this.getHeaders() });
+  }
   getUsersByRole(role: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/get-users-by-role`, { role }, { headers: this.getHeaders() });
   }

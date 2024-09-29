@@ -1,166 +1,81 @@
-import { Component, OnInit } from '@angular/core';
-import { ChartOptions, ChartData, Chart, registerables } from 'chart.js';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { BaseChartDirective } from 'ng2-charts';
-import { DashboardService } from '../../services/dashboard.service';
+// import { Component, OnInit } from '@angular/core';
+// import { ChartConfiguration, ChartType } from 'chart.js';
+// import { BaseChartDirective } from 'ng2-charts';
+// import { CommonModule } from '@angular/common';
+// import { NgChartsModule } from 'ng2-charts';
+// import { DashboardService } from '../../services/dashboard.service';
+// import { ChartsModule } from 'ng2-charts';
 
-// Register the required controllers
-Chart.register(...registerables);
+// @Component({
+//   standalone: true,
+//   selector: 'app-dashboard',
+//   templateUrl: './dashboard.component.html',
+//   styleUrls: ['./dashboard.component.css'],
+//   imports: [CommonModule, ChartsModule],
+// })
+// export class DashboardComponent implements OnInit {
+//   totalRevenue: number = 0;
+//   dailyVisits: number = 0;
+//   conversionRate: number = 0;
 
-@Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
-  standalone: true,
-  imports: [CommonModule, FormsModule, BaseChartDirective]
-})
-export class DashboardComponent implements OnInit {
-  public revenueChartOptions: ChartOptions<'bar'> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            let label = context.dataset.label || '';
-            if (label) {
-              label += ': ';
-            }
-            if (context.parsed.y !== null) {
-              label += `${context.parsed.y} units`;
-            }
-            return label;
-          }
-        }
-      }
-    }
-  };
-  public revenueChartLabels: string[] = [];
-  public revenueChartType: 'bar' = 'bar';
-  public revenueChartLegend = true;
-  public revenueChartData: ChartData<'bar'> = {
-    labels: this.revenueChartLabels,
-    datasets: [{ data: [], label: 'Revenue' }]
-  };
+//   // Chart configurations
+//   ordersPerDayChartData: ChartConfiguration['data'] = {
+//     labels: [],
+//     datasets: [
+//       {
+//         label: 'Commandes par jour',
+//         data: [],
+//         fill: true,
+//         borderColor: '#4caf50',
+//         backgroundColor: 'rgba(76, 175, 80, 0.3)',
+//       },
+//     ],
+//   };
 
-  public ordersChartOptions: ChartOptions<'line'> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            let label = context.dataset.label || '';
-            if (label) {
-              label += ': ';
-            }
-            if (context.parsed.y !== null) {
-              label += `${context.parsed.y} orders`;
-            }
-            return label;
-          }
-        }
-      }
-    }
-  };
-  public ordersChartLabels: string[] = [];
-  public ordersChartType: 'line' = 'line';
-  public ordersChartLegend = true;
-  public ordersChartData: ChartData<'line'> = {
-    labels: this.ordersChartLabels,
-    datasets: [{ data: [], label: 'Orders' }]
-  };
+//   mostSoldProductsChartData: ChartConfiguration['data'] = {
+//     labels: [],
+//     datasets: [
+//       {
+//         label: 'Produits les plus vendus',
+//         data: [],
+//         backgroundColor: '#ff5722',
+//       },
+//     ],
+//   };
 
-  public productsChartOptions: ChartOptions<'pie'> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            let label = context.label || '';
-            if (label) {
-              label += ': ';
-            }
-            if (context.parsed >= 0) {
-              label += `${context.parsed} units`;
-            }
-            return label;
-          }
-        }
-      }
-    }
-  };
-  public productsChartLabels: string[] = [];
-  public productsChartType: 'pie' = 'pie';
-  public productsChartLegend = true;
-  public productsChartData: ChartData<'pie'> = {
-    labels: this.productsChartLabels,
-    datasets: [{ data: [], label: 'Most Sold Products' }]
-  };
+//   topCustomersChartData: ChartConfiguration['data'] = {
+//     labels: [],
+//     datasets: [
+//       {
+//         label: 'Meilleurs clients',
+//         data: [],
+//         backgroundColor: '#03a9f4',
+//       },
+//     ],
+//   };
 
-  public customersChartOptions: ChartOptions<'doughnut'> = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-      tooltip: {
-        callbacks: {
-          label: function(context) {
-            let label = context.label || '';
-            if (label) {
-              label += ': ';
-            }
-            if (context.parsed >= 0) {
-              label += `${context.parsed} orders`;
-            }
-            return label;
-          }
-        }
-      }
-    }
-  };
-  public customersChartLabels: string[] = [];
-  public customersChartType: 'doughnut' = 'doughnut';
-  public customersChartLegend = true;
-  public customersChartData: ChartData<'doughnut'> = {
-    labels: this.customersChartLabels,
-    datasets: [{ data: [], label: 'Top Customers' }]
-  };
+//   constructor(private dashboardService: DashboardService) {}
 
-  constructor(private dashboardService: DashboardService) { }
+//   ngOnInit(): void {
+//     this.loadStats();
+//   }
 
-  ngOnInit(): void {
-    this.fetchChartData();
-  }
+//   loadStats() {
+//     this.dashboardService.getStats().subscribe((data) => {
+//       // Mettre à jour les statistiques
+//       this.totalRevenue = data.totalRevenue;
+//       this.dailyVisits = data.dailyVisits;
+//       this.conversionRate = data.conversionRate;
 
-  fetchChartData(): void {
-    this.dashboardService.getStats().subscribe(data => {
-      // Update Revenue Chart
-      this.revenueChartLabels = data.ordersPerDay.map((item: any) => item.date);
-      this.revenueChartData.datasets[0].data = data.ordersPerDay.map((item: any) => item.revenue);
+//       // Mettre à jour les données des courbes
+//       this.ordersPerDayChartData.labels = data.ordersPerDay.map((item: any) => item.date);
+//       this.ordersPerDayChartData.datasets[0].data = data.ordersPerDay.map((item: any) => item.orders);
 
-      // Update Orders Chart
-      this.ordersChartLabels = data.ordersPerDay.map((item: any) => item.date);
-      this.ordersChartData.datasets[0].data = data.ordersPerDay.map((item: any) => item.orders);
+//       this.mostSoldProductsChartData.labels = data.mostSoldProducts.map((product: any) => product.nom);
+//       this.mostSoldProductsChartData.datasets[0].data = data.mostSoldProducts.map((product: any) => product.commandes_count);
 
-      // Update Products Chart
-      this.productsChartLabels = data.mostSoldProducts.map((item: any) => item.nom_produit);
-      this.productsChartData.datasets[0].data = data.mostSoldProducts.map((item: any) => item.commandes_count);
-
-      // Update Customers Chart
-      this.customersChartLabels = data.topCustomers.map((item: any) => item.nom);
-      this.customersChartData.datasets[0].data = data.topCustomers.map((item: any) => item.commandes_count);
-    }, error => {
-      console.error('Error fetching chart data', error);
-    });
-  }
-}
+//       this.topCustomersChartData.labels = data.topCustomers.map((customer: any) => customer.name);
+//       this.topCustomersChartData.datasets[0].data = data.topCustomers.map((customer: any) => customer.commandes_count);
+//     });
+//   }
+// }

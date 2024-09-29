@@ -9,15 +9,16 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './admin-list.component.html',
-  styles: []
+  styleUrls: ['./admin-list.component.scss']
 })
 export class AdminListComponent implements OnInit {
   admins: any[] = [];
+  filteredAdmins: any[] = [];
+  searchFilters: { nom?: string; user_name?: string; prenom?: string; numero_telephone?: string } = {};
+  search: string = '';
   currentPage: number = 1;
   totalPages: number = 1;
   perPage: number = 10;
-  totalItems: number = 0;
-  search: string = '';
 
   constructor(private adminService: AdminService, private router: Router) {}
 
@@ -25,52 +26,80 @@ export class AdminListComponent implements OnInit {
     this.loadAdmins();
   }
 
-  loadAdmins() {
-    this.adminService.getAdmins(this.currentPage, this.perPage).subscribe(
-      response => {
-        console.log('Received data:', response); // Inspect the structure
-        if (response && response.data) {
-          this.admins = response.data;
-          this.currentPage = response.current_page;
-          this.totalPages = response.total_pages;
-          this.totalItems = response.total_items;
-        } else {
-          console.error('Expected a data field but got:', response);
-        }
+  // Load all admins with pagination
+  loadAdmins(page: number = this.currentPage): void {
+    this.adminService.getAdmins(page, this.perPage).subscribe(
+      data => {
+        this.admins = data.data; // List of admins
+        this.totalPages = data.total_pages; // Total number of pages
+        this.currentPage = data.current_page; // Current page
+        this.applySearchFilters(); // Apply filters after loading admins
       },
       error => {
-        console.error('Error loading admins:', error);
+        console.error('Error loading admins', error);
       }
     );
   }
 
+  // Apply search filters to admins list
+  applySearchFilters(): void {
+    if (this.search) {
+      this.filteredAdmins = this.admins.filter(admin =>
+        admin.nom.toLowerCase().includes(this.search.toLowerCase()) ||
+        admin.user_name.toLowerCase().includes(this.search.toLowerCase()) ||
+        admin.prenom.toLowerCase().includes(this.search.toLowerCase()) ||
+        admin.numero_telephone.includes(this.search)
+      );
+    } else {
+      this.filteredAdmins = [...this.admins];
+    }
+  }
+
+  // Search admins
+  searchAdmins(): void {
+    this.applySearchFilters(); // Apply filters to clients list
+
+  }
+
+  // Navigate to Add Admin page
   navigateToAddAdmin() {
     this.router.navigate(['/add-admin']);
   }
 
+  // Navigate to Update Admin page
   navigateToUpdateAdmin(id: number) {
-    console.log('Navigating to update-admin with ID:', id);
     this.router.navigate(['/update-admin', id]);
   }
-  
+
+  // Delete an admin
   deleteAdmin(id: number) {
     this.adminService.deleteAdmin(id).subscribe(() => {
-      this.loadAdmins();
+      this.loadAdmins(); // Reload admins after deletion
     });
   }
-  navigateToAdminDetails(id: number){
-    console.log('navigate to AdminDetails with ID:',id);
-    this.router.navigate(['/AdminDetails',id]);
+
+  // Navigate to Admin Details page
+  navigateToAdminDetails(id: number) {
+    this.router.navigate([`/admindetails/${id}`]);
   }
 
-  searchAdmins(): void {
-    this.currentPage = 1; // Reset to first page on new search
-    this.loadAdmins();}
+  // Update admin status
+  updateAdminStatus(admin: any) {
+    this.adminService.updateAdminStatus(admin.id, admin.status).subscribe(
+      response => {
+        console.log('Admin status updated successfully:', response);
+      },
+      error => {
+        console.error('Error updating admin status:', error);
+      }
+    );
+  }
 
+  // Change pagination page
   changePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
-      this.loadAdmins();
+      this.loadAdmins(page); // Reload admins for the new page
     }
   }
 }

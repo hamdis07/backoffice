@@ -21,9 +21,9 @@ export class ProduitService {
 
   constructor(private http: HttpClient) {}
 
-  getProduits(): Observable<any> {
+  getProduits(page: number): Observable<any> {
     const headers = this.getHeaders();
-    return this.http.get(`${this.baseUrl}/afficherTousLesProduits`, { headers })
+    return this.http.get(`${this.baseUrl}/afficherTousLesProduits?page=${page}`, { headers })
       .pipe(
         catchError((error) => {
           console.error('Error fetching produits:', error);
@@ -109,6 +109,38 @@ export class ProduitService {
         })
       );
   }
+  featureProduct(idProduit: number): Observable<any> {
+    const headers = this.getHeaders();
+
+    return this.http.post(`${this.baseUrl}/${idProduit}/feature`,{}, { headers });
+  }
+
+  // Unfeature a product
+  unfeatureProduct(idProduit: number): Observable<any> {
+    const headers = this.getHeaders();
+
+    return this.http.post(`${this.baseUrl}/${idProduit}/unfeature`,{}, {headers});
+  }
+
+  // Hide a product
+  hideProduct(idProduit: number): Observable<any> {
+    const headers = this.getHeaders();
+
+    return this.http.post(`${this.baseUrl}/${idProduit}/hide`,{}, {headers});
+  }
+
+  // Unhide a product
+  unhideProduct(idProduit: number): Observable<any> {
+    const headers = this.getHeaders();
+
+    return this.http.post(`${this.baseUrl}/${idProduit}/unhide`,{}, {headers});
+  }
+
+  // Search products with filters
+  searchProducts(params: any): Observable<any> {
+    return this.http.get(`${this.baseUrl}/recherche`, { params });
+  }
+
   index(filters: any): Observable<any> {
     let params = new HttpParams();
     
@@ -124,6 +156,6 @@ export class ProduitService {
       'Authorization': `Bearer ${token}`
     });
 
-    return this.http.get(`${this.baseUrl}/produits/recherche`, { params });
+    return this.http.get(`http://localhost:8000/api/produits/recherche`, { params });
   }
 }

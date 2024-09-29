@@ -1,32 +1,84 @@
-<h2>Liste des Admins</h2>
-<button (click)="navigateToAddAdmin()">Ajouter un Admin</button>
-<input type="text" [(ngModel)]="search" placeholder="Rechercher..." />
-<button (click)="searchAdmins()">Rechercher</button>
-<table>
-  <thead>
-    <tr>
-      <th>Nom</th>
-      <th>Email</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let admin of admins">
-      <td>{{ admin.nom }}</td>
-      <td>{{ admin.email }}</td>
-      <td>
-        <button (click)="navigateToAdminDetails(admin.id)">afficher admin</button>
-        <button (click)="navigateToUpdateAdmin(admin.id)">Mettre à jour</button>
-        <button (click)="deleteAdmin(admin.id)">Supprimer</button>
-      </td>
-    </tr>
-    <tr *ngIf="admins.length === 0">
-      <td colspan="3">Aucun administrateur trouvé.</td>
-    </tr>
-  </tbody>
-</table>
-<div>
-  <button (click)="changePage(currentPage - 1)" [disabled]="currentPage === 1">Précédent</button>
-  <span>Page {{ currentPage }} sur {{ totalPages }}</span>
-  <button (click)="changePage(currentPage + 1)" [disabled]="currentPage === totalPages">Suivant</button>
+<div class="admin-list-container">
+  <h2>Liste Administrateurs</h2>
+  <div class="actions-bar">
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="search"
+        placeholder="Rechercher par nom, prénom, ou téléphone ..."
+        class="search-input"
+      />
+      <button (click)="searchAdmins()" class="search-button">
+        Rechercher
+      </button>
+    </div>
+    <button (click)="navigateToAddAdmin()" class="add-button">
+      + Ajouter
+    </button>
+  </div>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Nom d'utilisateur</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Inscrit le</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let admin of filteredAdmins">
+        <td>{{ admin.id }}</td>
+        <td>{{ admin.nom }}</td>
+        <td>{{ admin.user_name }}</td>
+        <td>{{ admin.email }}</td>
+        <td>{{ admin.numero_telephone }}</td>
+        <td>{{ admin.created_at | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <select [(ngModel)]="admin.status" (change)="updateAdminStatus(admin)">
+            <option value="actif">Actif</option>
+            <option value="non actif">Non Actif</option>
+            <option value="en attente">En Attente</option>
+            <option value="bloqué">Bloqué</option>
+          </select>
+        </td>
+        <td class="actions-cell">
+          <button (click)="navigateToAdminDetails(admin.id)" class="action-button">
+            <i class="fa fa-eye"></i>
+          </button>
+          <button (click)="navigateToUpdateAdmin(admin.id)" class="action-button">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button (click)="deleteAdmin(admin.id)" class="action-button">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="filteredAdmins.length === 0">
+        <td colspan="8">Aucun administrateur trouvé.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination Controls -->
+  <div class="pagination">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="pagination-button"
+    >
+      Précédent
+    </button>
+    <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+      class="pagination-button"
+    >
+      Suivant
+    </button>
+  </div>
 </div>

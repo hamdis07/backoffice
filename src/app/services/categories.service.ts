@@ -1,32 +1,49 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriesService {
-  private baseUrl = 'http://localhost:8000/api/auth/categories';
+  private apiUrl = 'http://localhost:8000/api';  // Remplacez par votre URL d'API
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
+  // Méthode pour obtenir les headers d'autorisation
+  private getHeaders(): HttpHeaders {
+    let token = '';
+    if (typeof window !== 'undefined') { // Check if window is defined
+      token = localStorage.getItem('token') || '';
+    }
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
+
+  // Récupérer toutes les catégories
   getCategories(): Observable<any> {
-    return this.http.get(this.baseUrl);
+    return this.http.get(`${this.apiUrl}/categories`, { headers: this.getHeaders() });
   }
 
-  getCategory(id: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${id}`);
+  // Récupérer une catégorie par ID
+  getCategorie(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/categories/${id}`, { headers: this.getHeaders() });
   }
 
-  addCategory(category: any): Observable<any> {
-    return this.http.post(this.baseUrl, category);
+  // Créer une nouvelle catégorie
+  createCategorie(categorie: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/categories/create`, categorie, { headers: this.getHeaders() });
   }
 
-  updateCategory(id: number, category: any): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${id}`, category);
+  // Mettre à jour une catégorie
+  updateCategorie(id: number, categorie: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/categories/update/${id}`, categorie, { headers: this.getHeaders() });
   }
 
-  deleteCategory(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+  // Supprimer une catégorie
+  deleteCategorie(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/auth/categories/delete/${id}`, { headers: this.getHeaders() });
   }
 }

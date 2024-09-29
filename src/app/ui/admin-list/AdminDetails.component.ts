@@ -10,7 +10,7 @@ import { Router } from '@angular/router'; // Ensure Router is imported
     selector: 'app-admin-details',
     imports: [CommonModule, FormsModule],
     templateUrl: './admindetails.component.html',
-    styleUrls: ['./admindetails.component.scss']
+    styleUrls: ['./AdminDetails.component.scss']
 })
 export class AdminDetailsComponent implements OnInit {
     adminId: string | null = null;

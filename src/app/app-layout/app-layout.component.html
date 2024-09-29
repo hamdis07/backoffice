@@ -1,76 +1,156 @@
 <mat-sidenav-container fullscreen>
-    <mat-sidenav #sidenav mode="side" class="example-sidenav" opened="true">
-        <div class="logomain">Logo Part</div>
-        <mat-nav-list>
-            <a routerLinkActive="active" class="nav-link" routerLink="dashboard">
-                <mat-icon mat-list-icon>dashboard</mat-icon>
-                <p>Tableau de bord</p>
-            </a>
-            <a routerLinkActive="active" class="nav-link" routerLink="admins">
-                <mat-icon mat-list-icon>group</mat-icon>
-                <p>Liste des administrateurs</p>
-            </a>
-            <a routerLinkActive="active" class="nav-link" routerLink="clients">
-                <mat-icon mat-list-icon>person</mat-icon>
-                <p>Liste des clients</p>
-            </a>
-            <a routerLinkActive="active" class="nav-link" routerLink="produit">
-                <mat-icon mat-list-icon>person</mat-icon>
-                <p>Liste des produits</p>
-            </a>
-            <a routerLinkActive="active" class="nav-link" routerLink="depots">
-                <mat-icon mat-list-icon>person</mat-icon>
-                <p>Liste des depots</p>
-            </a>
-            <a routerLinkActive="active" class="nav-link" routerLink="messages">
-                <mat-icon mat-list-icon>person</mat-icon>
-                <p>Liste des messages</p>
-            </a>
+  <!-- Sidebar (Sidenav) -->
+  <mat-sidenav #sidenav mode="side" class="custom-sidenav" opened="true">
+    <div class="logo-container">
+      <img src="assets/logo.png" alt="Logo" class="logo">
+    </div>
 
-            <a routerLinkActive="active" class="nav-link" routerLink="promos">
-                <mat-icon mat-list-icon>person</mat-icon>
-                <p>les promos </p>
-            </a>
+    <!-- Navigation Links with Expandable Menus -->
+    <mat-nav-list>
+      <!-- Dashboard -->
+      <a routerLinkActive="active" class="nav-link" routerLink="dashboard">
+        <mat-list-item>
+          <mat-icon mat-list-icon>dashboard</mat-icon>
+          <span>Tableau de bord</span>
+        </mat-list-item>
+      </a>
 
-            <a routerLinkActive="active" class="nav-link" routerLink="clients">
-                <mat-icon mat-list-icon>person</mat-icon>
-                <p>Liste des commandes </p>
-            </a>
+      <!-- Clients (Expandable Menu) -->
+      <mat-expansion-panel class="custom-expansion">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon mat-list-icon>group</mat-icon>
+            <span>Clients</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <a routerLinkActive="active" class="nav-link" routerLink="clients">
+          <mat-list-item>
+            <mat-icon mat-list-icon>person</mat-icon>
+            <span>Liste des clients</span>
+          </mat-list-item>
+        </a>
+        <a routerLinkActive="active" class="nav-link" routerLink="admins">
+          <mat-list-item>
+            <mat-icon mat-list-icon>person_add</mat-icon>
+            <span>Liste des administrateurs</span>
+          </mat-list-item>
+        </a>
+      </mat-expansion-panel>
 
+      <!-- Produits (Expandable Menu) -->
+      <mat-expansion-panel class="custom-expansion">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon mat-list-icon>shopping_cart</mat-icon>
+            <span>Produits</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <a routerLinkActive="active" class="nav-link" routerLink="produit">
+          <mat-list-item>
+            <mat-icon mat-list-icon>shopping_basket</mat-icon>
+            <span>Liste des produits</span>
+          </mat-list-item>
+        </a>
+        <a routerLinkActive="active" class="nav-link" routerLink="categories">
+          <mat-list-item>
+            <mat-icon mat-list-icon>category</mat-icon>
+            <span>Catégories</span>
+          </mat-list-item>
+        </a>
+        <a routerLinkActive="active" class="nav-link" routerLink="souscategories">
+          <mat-list-item>
+            <mat-icon mat-list-icon>layers</mat-icon>
+            <span>sous categories</span>
+          </mat-list-item>
+        </a>
+      </mat-expansion-panel>
 
-        </mat-nav-list>
+      <!-- Dépôts -->
+      <a routerLinkActive="active" class="nav-link" routerLink="depots">
+        <mat-list-item>
+          <mat-icon mat-list-icon>store</mat-icon>
+          <span>Liste des dépôts</span>
+        </mat-list-item>
+      </a>
 
-    </mat-sidenav>
+      <!-- Messages -->
+      <a routerLinkActive="active" class="nav-link" routerLink="messages">
+        <mat-list-item>
+          <mat-icon mat-list-icon>mail</mat-icon>
+          <span>Liste des messages</span>
+        </mat-list-item>
+      </a>
 
-    <mat-sidenav-content>
-        <div class="side-nav-content">
-            <mat-toolbar color="primary">
-                <button mat-icon-button aria-label="Menu" (click)="sidenav.toggle()">
-                    <mat-icon>menu</mat-icon>
-                </button>
-                <span class="spacer"></span>
-                <!-- User info section -->
-                <div class="user-info">
-                  <!---- <img class="user-photo" src="path_to_user_photo.jpg" alt="User Photo"> -->
-                    <span class="user-name"></span>
-                </div>
-                <a routerLinkActive="active" class="nav-link" routerLink="login">
-                    <mat-icon mat-list-icon>group</mat-icon>
-                    <p>connectez-vous</p>
-                </a>
-                <a routerLinkActive="active" class="nav-link" routerLink="register">
-                    <mat-icon mat-list-icon>group</mat-icon>
-                    <p>register</p>
-                </a>
+      <!-- Promos -->
+      <a routerLinkActive="active" class="nav-link" routerLink="promos">
+        <mat-list-item>
+          <mat-icon mat-list-icon>local_offer</mat-icon>
+          <span>Promotions</span>
+        </mat-list-item>
+      </a>
 
-                <a routerLinkActive="active" class="nav-link" routerLink="logout">
-                    <mat-icon mat-list-icon>group</mat-icon>
-                    <p>logout</p>
-                </a>
+      <!-- Commandes -->
+      <a routerLinkActive="active" class="nav-link" routerLink="commande">
+        <mat-list-item>
+          <mat-icon mat-list-icon>shopping_basket</mat-icon>
+          <span>Liste des commandes</span>
+        </mat-list-item>
+      </a>
 
+      <!-- Publicité -->
+      <a routerLinkActive="active" class="nav-link" routerLink="publicite">
+        <mat-list-item>
+          <mat-icon mat-list-icon>campaign</mat-icon>
+          <span>Publicité</span>
+        </mat-list-item>
+      </a>
+      <a routerLinkActive="active" class="nav-link" routerLink="notifications">
+        <mat-list-item>
+          <mat-icon mat-list-icon>notifications</mat-icon>
+          <span>Notifications</span>
+        </mat-list-item>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
 
-            </mat-toolbar>
-            <router-outlet></router-outlet>
+  <!-- Main Content -->
+  <mat-sidenav-content>
+    <div class="side-nav-content">
+      <!-- Toolbar -->
+      <mat-toolbar color="primary" class="custom-toolbar">
+        <button mat-icon-button aria-label="Menu" (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="spacer"></span>
+
+        <!-- User Information Section -->
+        <div class="user-info">
+          <span class="user-name">Utilisateur connecté</span>
         </div>
-    </mat-sidenav-content>
+
+        <!-- Authentication Links -->
+        <a routerLinkActive="active" class="nav-link" routerLink="login">
+          <mat-list-item>
+            <mat-icon mat-list-icon>login</mat-icon>
+            <span>Connectez-vous</span>
+          </mat-list-item>
+        </a>
+        <a routerLinkActive="active" class="nav-link" routerLink="register">
+          <mat-list-item>
+            <mat-icon mat-list-icon>person_add</mat-icon>
+            <span>Inscription</span>
+          </mat-list-item>
+        </a>
+        <a routerLinkActive="active" class="nav-link" routerLink="logout">
+          <mat-list-item>
+            <mat-icon mat-list-icon>logout</mat-icon>
+            <span>Déconnexion</span>
+          </mat-list-item>
+        </a>
+      </mat-toolbar>
+
+      <!-- Router outlet for dynamic content -->
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>

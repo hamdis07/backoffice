@@ -1,55 +1,62 @@
-/* add-admin.component.scss */
-form {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 1em;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background: #fff;
-  }
+.admin-form-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
 
-  label {
-    margin-bottom: 1em;
-    color: #333;
-    font-weight: bold;
-    display: block;
-  }
+.admin-form .form-group {
+  margin-bottom: 15px;
+}
 
-  input, select {
-    border: 1px solid #ccc;
-    padding: 0.5em;
-    font-size: 1em;
-    border-radius: 5px;
-    width: calc(100% - 1em);
-    margin-bottom: 1em;
-  }
+.admin-form .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
 
-  button {
-    padding: 0.7em 1.5em;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-  }
+.admin-form .form-group input,
+.admin-form .form-group select,
+.admin-form .form-group textarea {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
 
-  button:hover {
-    background-color: #0056b3;
-  }
+.admin-form .form-control-file {
+  padding: 0;
+  border: none;
+}
 
-  h2 {
-    text-align: center;
-    color: #007bff;
-  }
+.admin-form .button-group {
+  text-align: right;
+}
 
-  @media (max-width: 600px) {
-    form {
-      padding: 0.5em;
-    }
+.admin-form .btn {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
 
-    input, button {
-      font-size: 0.9em;
-    }
-  }
+.admin-form .btn-primary {
+  background-color: #007bff;
+  border: none;
+  color: white;
+}
+
+.admin-form .btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  color: white;
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  margin-top: 15px;
+}

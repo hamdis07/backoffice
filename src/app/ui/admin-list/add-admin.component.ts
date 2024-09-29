@@ -1,9 +1,12 @@
+
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminService } from '../../services/admin.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgForm } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 interface Admin {
   nom: string;
@@ -23,11 +26,16 @@ interface Admin {
 
 @Component({
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule,CommonModule, ReactiveFormsModule],
   selector: 'app-add-admin',
   templateUrl: './add-admin.component.html',
+  styleUrls: ['./add-admin.component.scss']
+
 })
 export class AddAdminComponent {
+  //updateAdminForm!: FormGroup;
+
+  
   admin: Admin = {
     nom: '',
     prenom: '',
@@ -96,6 +104,13 @@ export class AddAdminComponent {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      console.log("Selected file: ", this.selectedFile);
+    } else {
+      console.log("No file selected.");
+    }
   }
+  
 }

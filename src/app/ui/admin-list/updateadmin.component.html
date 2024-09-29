@@ -1,59 +1,73 @@
-<form [formGroup]="updateAdminForm" (ngSubmit)="onSubmit()">
-  <div>
+<form [formGroup]="updateAdminForm" (ngSubmit)="onSubmit()" class="form-container">
+  <h2>Mettre à Jour l'Administrateur</h2>
+  
+  <div class="form-group">
     <label for="nom">Nom:</label>
-    <input id="nom" formControlName="nom" type="text">
+    <input id="nom" formControlName="nom" type="text" class="form-control">
   </div>
-  <div>
+  
+  <div class="form-group">
     <label for="prenom">Prenom:</label>
-    <input id="prenom" formControlName="prenom" type="text">
+    <input id="prenom" formControlName="prenom" type="text" class="form-control">
   </div>
-  <div>
+
+  <div class="form-group">
     <label for="genre">Genre:</label>
-    <select id="genre" formControlName="genre">
+    <select id="genre" formControlName="genre" class="form-control">
       <option value="Male">Male</option>
       <option value="Female">Female</option>
       <option value="Other">Other</option>
     </select>
   </div>
-  <div>
+  
+  <div class="form-group">
     <label for="date_de_naissance">Date de Naissance:</label>
-    <input id="date_de_naissance" formControlName="date_de_naissance" type="date">
+    <input id="date_de_naissance" formControlName="date_de_naissance" type="date" class="form-control">
   </div>
-  <div>
+
+  <div class="form-group">
     <label for="addresse">Addresse:</label>
-    <input id="addresse" formControlName="addresse" type="text">
+    <input id="addresse" formControlName="addresse" type="text" class="form-control">
   </div>
-  <div>
+
+  <div class="form-group">
     <label for="occupation">Occupation:</label>
-    <input id="occupation" formControlName="occupation" type="text">
+    <input id="occupation" formControlName="occupation" type="text" class="form-control">
   </div>
-  <div>
+
+  <div class="form-group">
     <label for="etat_social">Etat Social:</label>
-    <input id="etat_social" formControlName="etat_social" type="text">
+    <input id="etat_social" formControlName="etat_social" type="text" class="form-control">
   </div>
-  <div>
+
+  <div class="form-group">
     <label for="numero_telephone">Numero Telephone:</label>
-    <input id="numero_telephone" formControlName="numero_telephone" type="text">
+    <input id="numero_telephone" formControlName="numero_telephone" type="text" class="form-control">
   </div>
-  <div>
+
+  <div class="form-group">
     <label for="user_name">Username:</label>
-    <input id="user_name" formControlName="user_name" type="text">
+    <input id="user_name" formControlName="user_name" type="text" class="form-control">
   </div>
-  <div>
+
+  <div class="form-group">
     <label for="email">Email:</label>
-    <input id="email" formControlName="email" type="email">
+    <input id="email" formControlName="email" type="email" class="form-control">
   </div>
-  <div>
+
+  <div class="form-group">
     <label for="password">Password:</label>
-    <input id="password" formControlName="password" type="password">
+    <input id="password" formControlName="password" type="password" class="form-control">
   </div>
-  <div>
+
+  <div class="form-group">
     <label for="user_image">User Image:</label>
-    <input id="user_image" type="file" (change)="onFileChange($event)">
+    <input id="user_image" type="file" (change)="onFileChange($event)" class="form-control">
   </div>
-  <div>
+
+  <div class="form-group">
     <label for="role">Role:</label>
-    <select id="role" formControlName="role">
+    <select id="role" formControlName="role" class="form-control">
       <option value="admin">Admin</option>
       <option value="superadmin">Superadmin</option>
       <option value="client">Client</option>
@@ -62,6 +76,6 @@
       <option value="responsable_marketing">Responsable Marketing</option>
     </select>
   </div>
-  
-  <button type="submit">Update Admin</button>
+
+  <button type="submit" class="btn-submit">Update Admin</button>
 </form>

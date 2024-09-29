@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './updateadmin.component.html',
-  styles: []
+  styleUrls: ['./updateadmin.component.scss']
 })
 export class UpdateAdminComponent implements OnInit {
   updateAdminForm!: FormGroup;

@@ -88,7 +88,7 @@ export class ModifierProduitComponent implements OnInit {
       categorie: ['', Validators.required],
       sous_categorie: ['', Validators.required],
       mots_cles: [''],
-      images: [[], [Validators.required, this.imagesValidator]],
+      images: this.fb.array([]), // Initialisation comme un tableau vide
       image_url: [''],
       magasins: this.fb.array([this.createMagasin()]),
       promo: this.fb.group({
@@ -203,17 +203,49 @@ export class ModifierProduitComponent implements OnInit {
     const endDate = group.get('date_fin')?.value;
     return startDate && endDate && startDate > endDate ? { invalidPromoDates: true } : null;
   }
-
   loadProduit(): void {
     this.produitService.getProduitById(this.produitId)
       .subscribe((produit: Produit) => {
-        this.produitForm.patchValue(produit);
+        // Initialiser les valeurs du formulaire
+        this.produitForm.patchValue({
+          references: produit.references,
+          nom_produit: produit.nom_produit,
+          description: produit.description,
+          prix_initial: produit.prix_initial,
+          composition: produit.composition,
+          entretien: produit.entretien,
+          genre: produit.genre,
+          categorie: produit.categorie,
+          sous_categorie: produit.sous_categorie,
+          mots_cles: produit.mots_cles,
+          image_url: produit.image_url,
+          promo: {
+            nom: produit.promo.nom,
+            pourcentage_reduction: produit.promo.pourcentage_reduction,
+            date_debut: produit.promo.date_debut,
+            date_fin: produit.promo.date_fin
+          }
+        });
   
-        // Assurez-vous que `produit.magasins` est bien un tableau
-        const magasinsArray = Array.isArray(produit.magasins) ? produit.magasins : [];
-        this.produitForm.setControl('magasins', this.fb.array(magasinsArray.map((magasin: Magasin) => this.createMagasinFromData(magasin))));
+        // Initialiser les images
+        const imagesArray = this.produitForm.get('images') as FormArray;
+        if (Array.isArray(produit.images)) {
+          produit.images.forEach((image: File) => {
+            imagesArray.push(this.fb.control(image));
+          });
+        }
+  
+        // Initialiser les magasins
+        const magasinsArray = this.produitForm.get('magasins') as FormArray;
+        if (Array.isArray(produit.magasins)) {
+          produit.magasins.forEach((magasin: Magasin) => {
+            magasinsArray.push(this.createMagasinFromData(magasin));
+          });
+        }
       }, error => console.error(error));
   }
+  
+  
   
   createMagasinFromData(data: Magasin): FormGroup {
     const magasin = this.createMagasin();
@@ -234,11 +266,50 @@ export class ModifierProduitComponent implements OnInit {
     const couleur = this.createCouleur();
     couleur.patchValue(data);
     return couleur;
+  }onFileChange(event: Event, type: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      const files = Array.from(input.files);
+      if (type === 'images') {
+        const imagesArray = this.produitForm.get('images') as FormArray;
+        files.forEach(file => {
+          imagesArray.push(this.fb.control(file));
+        });
+      } else if (type === 'image_url') {
+        if (files.length > 0) {
+          this.produitForm.patchValue({ image_url: files[0] });
+        }
+      }
+    }
   }
+  
 
   onSubmit(): void {
     if (this.produitForm.valid) {
-      this.produitService.modifierProduit(this.produitId, this.produitForm.value)
+      const formData = new FormData();
+      Object.keys(this.produitForm.controls).forEach((key) => {
+        const control = this.produitForm.get(key);
+        
+        if (control instanceof FormArray) {
+          control.controls.forEach((item, index) => {
+            if (key === 'images') {
+              const files: File[] = Array.from(item.value || []);
+              files.forEach((file) => {
+                formData.append(`${key}[${index}]`, file);
+              });
+            } else if (key === 'magasins') {
+              formData.append(key, JSON.stringify(item.value));
+            } else {
+              formData.append(key, item.value);
+            }
+          });
+        
+        } else {
+          formData.append(key, control?.value);
+        }
+      });
+  
+      this.produitService.modifierProduit(this.produitId, formData)
         .pipe(
           catchError(err => {
             console.error('Erreur lors de la modification du produit', err);
@@ -250,32 +321,29 @@ export class ModifierProduitComponent implements OnInit {
         });
     }
   }
+  
 
-  onFileChange(event: Event, type: string): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files) {
-      const files = Array.from(input.files);
-      if (type === 'images') {
-        const images = this.produitForm.get('images') as FormArray;
-        files.forEach(file => {
-          images.push(this.fb.control(file));
-        });
-      } else if (type === 'image_url') {
-        this.produitForm.patchValue({ image_url: files[0] });
-      }
-    }
-  }
+  // onFileChange(event: Event, field: string): void {
+  //   const input = event.target as HTMLInputElement;
+  //   if (input.files) {
+  //     const file = input.files[0];
+  //     this.produitForm.patchValue({
+  //       [field]: file
+  //     });
+  //   }
+  // }
+  
 
   checkPromotion(): void {
-    const promo = this.produitForm.get('promo')?.value;
-    const dateDebut = new Date(promo.date_debut);
-    const dateFin = new Date(promo.date_fin);
-    const today = new Date();
-
-    if (promo.date_debut && promo.date_fin && (today >= dateDebut && today <= dateFin)) {
-      this.produitForm.get('prix_initial')?.setValue(this.prixOriginal - (this.prixOriginal * (promo.pourcentage_reduction || 0) / 100));
-    } else {
-      this.produitForm.get('prix_initial')?.setValue(this.prixOriginal);
+    const promoControl = this.produitForm.get('promo');
+    if (promoControl) {
+      const startDate = promoControl.get('date_debut')?.value;
+      const endDate = promoControl.get('date_fin')?.value;
+      if (startDate && endDate) {
+        const isValid = isWithinInterval(parseISO(startDate), { start: new Date(), end: parseISO(endDate) });
+        promoControl.get('pourcentage_reduction')?.setValidators(isValid ? [Validators.required, Validators.min(0), Validators.max(100)] : null);
+        promoControl.get('pourcentage_reduction')?.updateValueAndValidity();
+      }
     }
   }
 }
