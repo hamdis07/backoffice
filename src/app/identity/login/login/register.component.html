@@ -1,37 +1,76 @@
-<h2>Register</h2>
-<form (ngSubmit)="registre()">
-  <label>Nom:</label>
-  <input type="text" [(ngModel)]="user.nom" name="nom" required>
-  <label>Prénom:</label>
-  <input type="text" [(ngModel)]="user.prenom" name="prenom" required>
-  <label>Genre:</label>
-  <select [(ngModel)]="user.genre" name="genre" required>
-    <option value="Male">Male</option>
-    <option value="Female">Female</option>
-    <option value="Other">Other</option>
-  </select>
-  <label>Date de Naissance:</label>
-  <input type="date" [(ngModel)]="user.date_de_naissance" name="date_de_naissance" required>
-  <label>Adresse:</label>
-  <input type="text" [(ngModel)]="user.Addresse" name="Addresse" required>
-  <label>Occupation:</label>
-  <input type="text" [(ngModel)]="user.occupation" name="occupation" required>
-  <label>État Social:</label>
-  <input type="text" [(ngModel)]="user.etat_social" name="etat_social" required>
-  <label>Numéro de Téléphone:</label>
-  <input type="text" [(ngModel)]="user.numero_telephone" name="numero_telephone" required>
-  <label>Nom d'utilisateur:</label>
-  <input type="text" [(ngModel)]="user.user_name" name="user_name" required>
-  <label>Email:</label>
-  <input type="email" [(ngModel)]="user.email" name="email" required>
-  <label>Password:</label>
-  <input type="password" [(ngModel)]="user.password" name="password" required>
-  <label>Image de l'utilisateur:</label>
-  <input type="file" (change)="onFileSelected($event)">
-  <div *ngIf="errors.length">
-    <ul>
-      <li *ngFor="let error of errors">{{ error }}</li>
-    </ul>
-  </div>
-  <button type="submit">Register</button>
-</form>
+<div class="register-card">
+  <h2>Register</h2>
+  <form (ngSubmit)="registre()">
+    <div class="form-group">
+      <label for="nom">Nom:</label>
+      <input type="text" id="nom" [(ngModel)]="user.nom" name="nom" required class="form-control" />
+    </div>
+    
+    <div class="form-group">
+      <label for="prenom">Prénom:</label>
+      <input type="text" id="prenom" [(ngModel)]="user.prenom" name="prenom" required class="form-control" />
+    </div>
+    
+    <div class="form-group">
+      <label for="genre">Genre:</label>
+      <select id="genre" [(ngModel)]="user.genre" name="genre" required class="form-control">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="date_de_naissance">Date de Naissance:</label>
+      <input type="date" id="date_de_naissance" [(ngModel)]="user.date_de_naissance" name="date_de_naissance" required class="form-control" />
+    </div>
+    
+    <div class="form-group">
+      <label for="adresse">Adresse:</label>
+      <input type="text" id="adresse" [(ngModel)]="user.Addresse" name="Addresse" required class="form-control" />
+    </div>
+    
+    <div class="form-group">
+      <label for="occupation">Occupation:</label>
+      <input type="text" id="occupation" [(ngModel)]="user.occupation" name="occupation" required class="form-control" />
+    </div>
+    
+    <div class="form-group">
+      <label for="etat_social">État Social:</label>
+      <input type="text" id="etat_social" [(ngModel)]="user.etat_social" name="etat_social" required class="form-control" />
+    </div>
+    
+    <div class="form-group">
+      <label for="numero_telephone">Numéro de Téléphone:</label>
+      <input type="text" id="numero_telephone" [(ngModel)]="user.numero_telephone" name="numero_telephone" required class="form-control" />
+    </div>
+    
+    <div class="form-group">
+      <label for="user_name">Nom d'utilisateur:</label>
+      <input type="text" id="user_name" [(ngModel)]="user.user_name" name="user_name" required class="form-control" />
+    </div>
+    
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" [(ngModel)]="user.email" name="email" required class="form-control" />
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" [(ngModel)]="user.password" name="password" required class="form-control" />
+    </div>
+    
+    <div class="form-group">
+      <label for="image">Image de l'utilisateur:</label>
+      <input type="file" id="image" (change)="onFileSelected($event)" class="form-control" />
+    </div>
+    
+    <div *ngIf="errors.length" class="error-list">
+      <ul>
+        <li *ngFor="let error of errors">{{ error }}</li>
+      </ul>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Register</button>
+  </form>
+</div>

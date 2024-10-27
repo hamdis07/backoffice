@@ -68,7 +68,9 @@ export class ClientListComponent implements OnInit {
 
   // Edit client details
   editClient(client: any): void {
-    const dialogRef = this.dialog.open(ClientEditDialogComponent, {
+    const dialogRef = this.dialog.open(ClientEditDialogComponent, { 
+      width: '600px',height:'600px',
+    
       data: { client, isEditMode: true }
     });
 

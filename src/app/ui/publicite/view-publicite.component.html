@@ -1,0 +1,60 @@
+<div class="publicite-details-container" *ngIf="publicite">
+    <h1 class="title">Détails de la Publicité</h1>
+    
+    <div class="publicite-detail">
+      <label>ID :</label>
+      <p>{{ publicite.id }}</p>
+    </div>
+    
+    <div class="publicite-detail">
+      <label>Nom :</label>
+      <p>{{ publicite.nom }}</p>
+    </div>
+    
+    <div class="publicite-detail">
+      <label>Description :</label>
+      <p>{{ publicite.description }}</p>
+    </div>
+  
+    <div class="publicite-detail">
+      <label>Date de début :</label>
+      <p>{{ publicite.date_lancement | date: 'dd/MM/yyyy' }}</p>
+    </div>
+    
+    <div class="publicite-detail">
+      <label>Date de fin :</label>
+      <p>{{ publicite.date_fin | date: 'dd/MM/yyyy' }}</p>
+    </div>
+  
+    <div class="publicite-detail">
+      <label>Budget :</label>
+      <p>{{ publicite.budget | currency:'EUR' }}</p>
+    </div>
+  
+    <div class="publicite-detail">
+      <label>URL :</label>
+      <p><a href="{{ publicite.url }}" target="_blank">{{ publicite.url }}</a></p>
+    </div>
+  
+    <div class="publicite-detail">
+      <label>Type :</label>
+      <p>{{ publicite.type }}</p>
+    </div>
+  
+    <!-- Vous pouvez ajouter d'autres champs ici selon les détails de votre publicité -->
+    
+    <div class="action-buttons">
+      <button mat-raised-button color="primary" (click)="onEdit()">Modifier</button>
+      <button mat-raised-button color="warn" (click)="onDelete()">Supprimer</button>
+    </div>
+  </div>
+  
+  <!-- Affichage des erreurs ou du chargement -->
+  <div *ngIf="loading">
+    <p>Chargement...</p>
+  </div>
+  
+  <div *ngIf="error">
+    <p class="error-message">Erreur lors de la récupération des détails de la publicité.</p>
+  </div>
+  

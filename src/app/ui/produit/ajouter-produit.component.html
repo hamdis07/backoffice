@@ -1,80 +1,79 @@
-<form [formGroup]="produitForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="produitForm" (ngSubmit)="onSubmit()" class="product-form">
   <!-- Informations Générales du Produit -->
-  <div>
+  <div class="form-section">
     <label for="references">Références :</label>
     <input id="references" formControlName="references" type="text" />
   </div>
-  <div>
+  <div class="form-section">
     <label for="nom_produit">Nom du Produit :</label>
     <input id="nom_produit" formControlName="nom_produit" type="text" />
   </div>
-  <div>
+  <div class="form-section">
     <label for="description">Description :</label>
     <textarea id="description" formControlName="description"></textarea>
   </div>
-  <div>
+  <div class="form-section">
     <label for="prix_initial">Prix Initial :</label>
     <input id="prix_initial" formControlName="prix_initial" type="number" />
   </div>
-  <div>
+  <div class="form-section">
     <label for="composition">Composition :</label>
     <input id="composition" formControlName="composition" type="text" />
   </div>
-  <div>
+  <div class="form-section">
     <label for="entretien">Entretien :</label>
     <input id="entretien" formControlName="entretien" type="text" />
   </div>
-  <div>
+  <div class="form-section">
     <label for="genre">Genre :</label>
     <input id="genre" formControlName="genre" type="text" />
   </div>
-  <div>
+  <div class="form-section">
     <label for="categorie">Catégorie :</label>
     <input id="categorie" formControlName="categorie" type="text" />
   </div>
-  <div>
+  <div class="form-section">
     <label for="sous_categorie">Sous-Catégorie :</label>
     <input id="sous_categorie" formControlName="sous_categorie" type="text" />
   </div>
-  <div>
+  <div class="form-section">
     <label for="mots_cles">Mots Clés :</label>
     <input id="mots_cles" formControlName="mots_cles" type="text" />
   </div>
-  <div>
+  <div class="form-section">
     <label for="images">Images :</label>
     <input type="file" (change)="onFileChange($event, 'images')" multiple />
   </div>
-  <div>
+  <div class="form-section">
     <label for="image_url">URL Image :</label>
     <input type="file" (change)="onFileChange($event, 'image_url')" />
   </div>
-  
 
   <!-- Gestion des Magasins -->
   <div formArrayName="magasins">
-    <div *ngFor="let magasin of magasins.controls; let i = index" [formGroupName]="i">
+    <div *ngFor="let magasin of magasins.controls; let i = index" [formGroupName]="i" class="magasin-section">
       <h3>Magasin {{ i + 1 }}</h3>
-      <div>
+      <div class="form-section">
         <label for="nom">Nom du Magasin :</label>
         <input id="nom" formControlName="nom" type="text" />
       </div>
-      <div>
+      <div class="form-section">
         <label for="adresse">Adresse :</label>
         <input id="adresse" formControlName="adresse" type="text" />
       </div>
-      <div>
+      <div class="form-section">
         <label for="ville">Ville :</label>
         <input id="ville" formControlName="ville" type="text" />
       </div>
-      <div>
+      <div class="form-section">
         <label for="code_postal">Code Postal :</label>
         <input id="code_postal" formControlName="code_postal" type="text" />
       </div>
-      <div>
+      <div class="form-section">
         <label for="responsable">Responsable :</label>
         <input id="responsable" formControlName="responsable" type="text" />
       </div>
-      <div>
+      <div class="form-section">
         <label for="telephone">Téléphone :</label>
         <input id="telephone" formControlName="telephone" type="text" />
       </div>
@@ -83,66 +82,57 @@
       <div formArrayName="tailles">
         <div *ngFor="let taille of getTaille(i).controls; let j = index" [formGroupName]="j">
           <h4>Taille {{ j + 1 }}</h4>
-          <div>
+          <div class="form-section">
             <label for="taille_nom">Taille :</label>
             <input id="taille_nom" formControlName="nom" type="text" />
           </div>
-          
+
           <!-- Couleurs -->
           <div formArrayName="couleurs">
             <div *ngFor="let couleur of getCouleur(i, j).controls; let k = index" [formGroupName]="k">
-              <div>
+              <div class="form-section">
                 <label for="couleur_nom">Couleur :</label>
                 <input id="couleur_nom" formControlName="nom" type="text" />
               </div>
-              
-              <div>
+              <div class="form-section">
                 <label for="quantite">Quantité :</label>
                 <input id="quantite" formControlName="quantite" type="number" />
               </div>
-              
               <button type="button" (click)="removeCouleur(i, j, k)">Supprimer Couleur</button>
             </div>
-            
             <button type="button" (click)="addCouleur(i, j)">Ajouter Couleur</button>
           </div>
-          
+
           <button type="button" (click)="removeTaille(i, j)">Supprimer Taille</button>
         </div>
-        
         <button type="button" (click)="addTaille(i)">Ajouter Taille</button>
       </div>
-      
-      <button type="button" (click)="removeMagasin(i)">Supprimer Mag
-asin</button>
+
+      <button type="button" (click)="removeMagasin(i)">Supprimer Magasin</button>
     </div>
-    
     <button type="button" (click)="addMagasin()">Ajouter Magasin</button>
   </div>
-  
+
   <!-- Promotions -->
-  <div formGroupName="promo">
-    <div>
+  <div formGroupName="promo" class="promo-section">
+    <div class="form-section">
       <label for="promo_nom">Nom de la Promo :</label>
       <input id="promo_nom" formControlName="nom" type="text" />
     </div>
-    
-    <div>
+    <div class="form-section">
       <label for="pourcentage_reduction">Pourcentage de Réduction :</label>
       <input id="pourcentage_reduction" formControlName="pourcentage_reduction" type="number" />
     </div>
-    
-    <div>
+    <div class="form-section">
       <label for="date_debut">Date de Début :</label>
       <input id="date_debut" formControlName="date_debut" type="date" />
     </div>
-    
-    <div>
+    <div class="form-section">
       <label for="date_fin">Date de Fin :</label>
       <input id="date_fin" formControlName="date_fin" type="date" />
     </div>
   </div>
-  
+
   <!-- Bouton de Soumission -->
-  <button type="submit">Ajouter Produit</button>
+  <button type="submit" class="submit-btn">Ajouter Produit</button>
 </form>

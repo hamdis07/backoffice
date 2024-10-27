@@ -1,0 +1,61 @@
+<br>
+<br>
+<div class="notifications-container">
+    <h2>Notifications</h2>
+  
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="loading-spinner">
+      <p>Chargement des notifications...</p>
+    </div>
+  
+    <!-- Error Message -->
+    <div *ngIf="error" class="error-message">{{ error }}</div>
+  
+    <!-- No Notifications Available -->
+    <div *ngIf="notifications.length === 0 && !loading" class="no-notifications">
+      <p>Aucune notification disponible</p>
+    </div>
+  
+    <!-- Notifications List -->
+    <ul *ngIf="notifications.length > 0" class="notifications-list">
+      <li *ngFor="let notification of notifications" class="notification-item">
+        <div class="notification-content">
+          <!-- Notification Information -->
+          <div class="notification-info">
+            <h4>Nouvelle Commande</h4>
+            <p><strong>ID de la commande :</strong> {{ notification.data.commande_id }}</p>
+            <p><strong>Montant total :</strong> {{ notification.data.montant_total }} €</p>
+            <p><strong>Statut :</strong> {{ notification.data.statut }}</p>
+            <small class="notification-id">ID Notification: {{ notification.id }}</small>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="notification-actions">
+            <button 
+              class="btn btn-read" 
+              (click)="markAsRead(notification.id)" 
+              *ngIf="!notification.read_at"
+            >
+              Marquer comme lue
+            </button>
+            <button 
+              class="btn btn-delete" 
+              (click)="deleteNotification(notification.id)"
+            >
+              Supprimer
+            </button>
+          </div>
+        </div>
+      </li>
+    </ul>
+  
+    <!-- Mark All as Read Button -->
+    <button 
+      class="btn btn-mark-all" 
+      (click)="markAllAsRead()" 
+      *ngIf="notifications.length > 0"
+    >
+      Marquer toutes comme lues
+    </button>
+  </div>
+  

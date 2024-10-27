@@ -1,66 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormArray, Validators, AbstractControl } from '@angular/forms';
-import { ProduitService } from '../../services/Produit.service';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { ReactiveFormsModule } from '@angular/forms';
-import { isWithinInterval, parseISO } from 'date-fns';
-import { catchError, throwError } from 'rxjs';
-
-interface Couleur {
-  nom: string;
-  quantite: number;
-}
-
-interface Taille {
-  nom: string;
-  couleurs: Couleur[];
-}
-
-interface Magasin {
-  nom: string;
-  adresse: string;
-  ville: string;
-  code_postal: string;
-  responsable: string;
-  telephone: string;
-  tailles: Taille[];
-  couleurs?: Couleur[];
-}
-
-interface Produit {
-  references: string;
-  nom_produit: string;
-  description: string;
-  prix_initial: number;
-  composition: string;
-  entretien: string;
-  genre: string;
-  categorie: string;
-  sous_categorie: string;
-  mots_cles: string[];
-  images: File[];
-  image_url: File;
-  magasins: Magasin[];
-  promo: {
-    nom: string | null;
-    pourcentage_reduction: number | null;
-    date_debut: string | null;
-    date_fin: string | null;
-  };
-}
+import { ProduitService } from '../../services/Produit.service'; // Import your service
+import { CommonModule } from '@angular/common'; // Import CommonModule for *ngFor, *ngIf
+import { ReactiveFormsModule } from '@angular/forms'; // Import ReactiveFormsModule for formGroup and formGroupName
 
 @Component({
   selector: 'app-modifier-produit',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './modifier-produit.component.html',
-  styleUrls: ['./modifier-produit.component.scss']
+  styleUrls: ['./modifier-produit.component.scss'],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule] // Include CommonModule and ReactiveFormsModule here
 })
 export class ModifierProduitComponent implements OnInit {
   produitForm!: FormGroup;
-  prixOriginal!: number;
   produitId!: number;
 
   constructor(
@@ -71,279 +24,142 @@ export class ModifierProduitComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.produitId = +this.route.snapshot.paramMap.get('id')!;
-    this.initializeForm();
+    this.produitId = this.route.snapshot.params['id']; // Get product ID from the route
+    this.initForm();
     this.loadProduit();
   }
 
-  initializeForm(): void {
+  initForm(): void {
     this.produitForm = this.fb.group({
-      references: ['', Validators.required],
+      references: [''],
       nom_produit: ['', Validators.required],
-      description: ['', Validators.required],
-      prix_initial: ['', [Validators.required, Validators.min(0)]],
-      composition: ['', Validators.required],
-      entretien: ['', Validators.required],
-      genre: ['', Validators.required],
-      categorie: ['', Validators.required],
-      sous_categorie: ['', Validators.required],
-      mots_cles: [''],
-      images: this.fb.array([]), // Initialisation comme un tableau vide
+      description: [''],
+      composition: [''],
+      entretien: [''],
+      prix_initial: [0, [Validators.required, Validators.min(0)]],
       image_url: [''],
-      magasins: this.fb.array([this.createMagasin()]),
+      images: this.fb.array([]), // FormArray for images
+      mots_cles: [''],
+      magasins: this.fb.array([]), // FormArray for magasins
       promo: this.fb.group({
-        nom: [null],
-        pourcentage_reduction: [null, [Validators.min(0), Validators.max(100)]],
-        date_debut: [null, this.validateDateDebut()],
-        date_fin: [null, this.validateDateFin()],
-      }, { validator: this.validatePromoDates })
+        nom: [''],
+        pourcentage_reduction: [''],
+        date_debut: [''],
+        date_fin: [''],
+      }),
     });
-
-    this.prixOriginal = this.produitForm.get('prix_initial')?.value;
-    this.checkPromotion();
-
-    this.produitForm.get('promo.date_debut')?.valueChanges.subscribe(() => this.checkPromotion());
-    this.produitForm.get('promo.date_fin')?.valueChanges.subscribe(() => this.checkPromotion());
   }
 
-  createMagasin(): FormGroup {
+  loadProduit(): void {
+    this.produitService.getProduitById(this.produitId).subscribe((response) => {
+      const produit = response.produit;
+
+      // Patch values for basic fields
+      this.produitForm.patchValue({
+        references: produit.references,
+        nom_produit: produit.nom_produit,
+        description: produit.description,
+        composition: produit.composition,
+        entretien: produit.entretien,
+        prix_initial: produit.prix_initial,
+        image_url: produit.image_url,
+        mots_cles: produit.mots_cles,
+        promo: {
+          nom: produit.promos?.nom,
+          pourcentage_reduction: produit.promos?.pourcentage_reduction,
+          date_debut: produit.promos?.date_debut,
+          date_fin: produit.promos?.date_fin,
+        }
+      });
+
+      // Populate magasins and their nested sizes/colors
+      produit.magasins.forEach((magasin: any) => {
+        this.magasins.push(this.createMagasin(magasin));
+      });
+
+      // Populate images (if any)
+      if (produit.images && produit.images.length > 0) {
+        produit.images.forEach((image: any) => {
+          this.images.push(this.fb.control(image));
+        });
+      }
+    });
+  }
+
+  // Create magasin FormGroup with nested fields
+  createMagasin(magasin: any = {}): FormGroup {
     return this.fb.group({
-      nom: [''],
-      adresse: [''],
-      ville: [''],
-      code_postal: [''],
-      responsable: [''],
-      telephone: [''],
-      tailles: this.fb.array([this.createTaille()]),
-      couleurs: this.fb.array([]) // Initialisation à un tableau vide pour `couleurs`
+      nom: [magasin.nom || '', Validators.required],
+      taille: [magasin.taille || '', Validators.required],
+      couleur: [magasin.couleur || '', Validators.required],
+      quantite: [magasin.quantite || 0, [Validators.required, Validators.min(1)]],
     });
   }
 
-  createTaille(): FormGroup {
-    return this.fb.group({
-      nom: [''],
-      couleurs: this.fb.array([]) // Initialisation à un tableau vide pour `couleurs` dans une taille
-    });
-  }
-
-  createCouleur(): FormGroup {
-    return this.fb.group({
-      nom: [''],
-      quantite: ['']
-    });
-  }
-
-  get magasins(): FormArray {
-    return this.produitForm.get('magasins') as FormArray;
-  }
-
-  getTaille(magasinIndex: number): FormArray {
-    return this.magasins.at(magasinIndex).get('tailles') as FormArray;
-  }
-
-  getCouleur(magasinIndex: number, tailleIndex: number): FormArray {
-    return this.getTaille(magasinIndex).at(tailleIndex).get('couleurs') as FormArray;
-  }
-
+  // Add magasin
   addMagasin(): void {
     this.magasins.push(this.createMagasin());
   }
 
+  // Remove magasin
   removeMagasin(index: number): void {
     this.magasins.removeAt(index);
   }
 
-  addTaille(magasinIndex: number): void {
-    this.getTaille(magasinIndex).push(this.createTaille());
-  }
-
-  removeTaille(magasinIndex: number, tailleIndex: number): void {
-    this.getTaille(magasinIndex).removeAt(tailleIndex);
-  }
-
-  addCouleur(magasinIndex: number, tailleIndex: number): void {
-    this.getCouleur(magasinIndex, tailleIndex).push(this.createCouleur());
-  }
-
-  removeCouleur(magasinIndex: number, tailleIndex: number, couleurIndex: number): void {
-    this.getCouleur(magasinIndex, tailleIndex).removeAt(couleurIndex);
-  }
-
-  imagesValidator(control: AbstractControl) {
-    if (control.value && control.value.length === 0) {
-      return { required: true };
-    }
-    return null;
-  }
-
-  validateDateDebut(): Validators {
-    return (control: AbstractControl) => {
-      const endDate = this.produitForm?.get('promo.date_fin')?.value;
-      const startDate = control.value;
-      if (startDate && endDate && isWithinInterval(parseISO(startDate), { start: new Date(), end: parseISO(endDate) })) {
-        return null;
-      }
-      return { invalidDateDebut: true };
-    };
-  }
-
-  validateDateFin(): Validators {
-    return (control: AbstractControl) => {
-      const startDate = this.produitForm?.get('promo.date_debut')?.value;
-      const endDate = control.value;
-      if (startDate && endDate && isWithinInterval(parseISO(endDate), { start: parseISO(startDate), end: new Date() })) {
-        return null;
-      }
-      return { invalidDateFin: true };
-    };
-  }
-
-  validatePromoDates(group: FormGroup) {
-    const startDate = group.get('date_debut')?.value;
-    const endDate = group.get('date_fin')?.value;
-    return startDate && endDate && startDate > endDate ? { invalidPromoDates: true } : null;
-  }
-  loadProduit(): void {
-    this.produitService.getProduitById(this.produitId)
-      .subscribe((produit: Produit) => {
-        // Initialiser les valeurs du formulaire
-        this.produitForm.patchValue({
-          references: produit.references,
-          nom_produit: produit.nom_produit,
-          description: produit.description,
-          prix_initial: produit.prix_initial,
-          composition: produit.composition,
-          entretien: produit.entretien,
-          genre: produit.genre,
-          categorie: produit.categorie,
-          sous_categorie: produit.sous_categorie,
-          mots_cles: produit.mots_cles,
-          image_url: produit.image_url,
-          promo: {
-            nom: produit.promo.nom,
-            pourcentage_reduction: produit.promo.pourcentage_reduction,
-            date_debut: produit.promo.date_debut,
-            date_fin: produit.promo.date_fin
-          }
-        });
-  
-        // Initialiser les images
-        const imagesArray = this.produitForm.get('images') as FormArray;
-        if (Array.isArray(produit.images)) {
-          produit.images.forEach((image: File) => {
-            imagesArray.push(this.fb.control(image));
-          });
-        }
-  
-        // Initialiser les magasins
-        const magasinsArray = this.produitForm.get('magasins') as FormArray;
-        if (Array.isArray(produit.magasins)) {
-          produit.magasins.forEach((magasin: Magasin) => {
-            magasinsArray.push(this.createMagasinFromData(magasin));
-          });
-        }
-      }, error => console.error(error));
-  }
-  
-  
-  
-  createMagasinFromData(data: Magasin): FormGroup {
-    const magasin = this.createMagasin();
-    magasin.patchValue(data);
-    magasin.setControl('tailles', this.fb.array(data.tailles.map((taille: Taille) => this.createTailleFromData(taille))));
-    magasin.setControl('couleurs', this.fb.array(data.couleurs ? data.couleurs.map((couleur: Couleur) => this.createCouleurFromData(couleur)) : []));
-    return magasin;
-  }
-
-  createTailleFromData(data: Taille): FormGroup {
-    const taille = this.createTaille();
-    taille.patchValue(data);
-    taille.setControl('couleurs', this.fb.array(data.couleurs ? data.couleurs.map((couleur: Couleur) => this.createCouleurFromData(couleur)) : []));
-    return taille;
-  }
-
-  createCouleurFromData(data: Couleur): FormGroup {
-    const couleur = this.createCouleur();
-    couleur.patchValue(data);
-    return couleur;
-  }onFileChange(event: Event, type: string): void {
+  // On image change
+  onImageChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files) {
-      const files = Array.from(input.files);
-      if (type === 'images') {
-        const imagesArray = this.produitForm.get('images') as FormArray;
-        files.forEach(file => {
-          imagesArray.push(this.fb.control(file));
-        });
-      } else if (type === 'image_url') {
-        if (files.length > 0) {
-          this.produitForm.patchValue({ image_url: files[0] });
-        }
-      }
+    if (input.files && input.files[0]) {
+      this.addImage(input.files[0]);
     }
   }
-  
 
+  // Add image to FormArray
+  addImage(image: File | null): void {
+    if (image) {
+      this.images.push(this.fb.control(image));
+    }
+  }
+
+  // Submit form data with FormData (for file handling)
   onSubmit(): void {
     if (this.produitForm.valid) {
       const formData = new FormData();
-      Object.keys(this.produitForm.controls).forEach((key) => {
-        const control = this.produitForm.get(key);
-        
-        if (control instanceof FormArray) {
-          control.controls.forEach((item, index) => {
-            if (key === 'images') {
-              const files: File[] = Array.from(item.value || []);
-              files.forEach((file) => {
-                formData.append(`${key}[${index}]`, file);
-              });
-            } else if (key === 'magasins') {
-              formData.append(key, JSON.stringify(item.value));
-            } else {
-              formData.append(key, item.value);
-            }
+      const formValue = this.produitForm.value;
+
+      // Append each field to FormData
+      Object.keys(formValue).forEach((key) => {
+        if (key === 'magasins' || key === 'promo') {
+          formData.append(key, JSON.stringify(formValue[key]));
+        } else if (key === 'images') {
+          // Handle images as files
+          formValue.images.forEach((image: File) => {
+            formData.append('images[]', image);
           });
-        
         } else {
-          formData.append(key, control?.value);
+          formData.append(key, formValue[key]);
         }
       });
-  
-      this.produitService.modifierProduit(this.produitId, formData)
-        .pipe(
-          catchError(err => {
-            console.error('Erreur lors de la modification du produit', err);
-            return throwError(err);
-          })
-        )
-        .subscribe(() => {
+
+      this.produitService.modifierProduit(this.produitId, formData).subscribe(
+        (response) => {
+          console.log('Produit mis à jour avec succès', response);
           this.router.navigate(['/produits']);
-        });
+        },
+        (error) => {
+          console.error('Erreur lors de la mise à jour du produit', error);
+        }
+      );
     }
   }
-  
 
-  // onFileChange(event: Event, field: string): void {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files) {
-  //     const file = input.files[0];
-  //     this.produitForm.patchValue({
-  //       [field]: file
-  //     });
-  //   }
-  // }
-  
+  // Get magasins FormArray
+  get magasins(): FormArray {
+    return this.produitForm.get('magasins') as FormArray;
+  }
 
-  checkPromotion(): void {
-    const promoControl = this.produitForm.get('promo');
-    if (promoControl) {
-      const startDate = promoControl.get('date_debut')?.value;
-      const endDate = promoControl.get('date_fin')?.value;
-      if (startDate && endDate) {
-        const isValid = isWithinInterval(parseISO(startDate), { start: new Date(), end: parseISO(endDate) });
-        promoControl.get('pourcentage_reduction')?.setValidators(isValid ? [Validators.required, Validators.min(0), Validators.max(100)] : null);
-        promoControl.get('pourcentage_reduction')?.updateValueAndValidity();
-      }
-    }
+  // Get images FormArray
+  get images(): FormArray {
+    return this.produitForm.get('images') as FormArray;
   }
 }

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { AdminDetailsComponent } from './ui/admin-list/AdminDetails.component';
 import { AdminListComponent } from './ui/admin-list/admin-list.component';
@@ -17,7 +18,7 @@ import { PromoListComponent } from './ui/promos/promo-list.component';
 import { AuthGuard } from './services/auth.guard';
 import { AjouterProduitComponent } from './ui/produit/ajouter-produit.component';
 import { ModifierProduitComponent } from './ui/produit/modifier-produit.component';
-import { ProduitDetailsComponent } from './ui/produit/produitDetails.comonent';
+import { ProduitDetailsComponent } from './ui/produit/produitDetails.component';
 import { FiltreProduitsComponent } from './ui/produit/filtrerproduits.component';
 import { CreateClientComponent } from './ui/client-list/create-client.component';
 import { CreateCommandeComponent } from './ui/commandes/create-commande.component';
@@ -27,6 +28,7 @@ import { CategorieListComponent } from './ui/categories/categorielist.component'
 import { SousCategorieListComponent } from './ui/souscategories/sous-categorie-list.component';
 import { PubliciteListComponent } from './ui/publicite/publicite-list.component';
 import { NotificationsComponent } from './ui/notification/notifications.component';
+import { ViewPubliciteComponent } from './ui/publicite/view-publicite.component';
 
 export const routes: Routes = [
   {
@@ -52,8 +54,9 @@ export const routes: Routes = [
       { path: 'clients', component: ClientListComponent, canActivate: [AuthGuard] },
       { path: 'create-client', component: CreateClientComponent, canActivate: [AuthGuard] },
       { path: 'clientdetails/:id', component: ClientDetailsComponent, canActivate: [AuthGuard] },
-      
-
+     
+      { path: 'publicite/:id',   component: ViewPubliciteComponent  },
+ 
       { path: 'produit', component: ProduitListComponent, canActivate: [AuthGuard] },
       { path: 'modifier-produit/:id', component: ModifierProduitComponent,canActivate:[AuthGuard] },
       { path: 'produitDetails/:id', component: ProduitDetailsComponent,canActivate:[AuthGuard] },

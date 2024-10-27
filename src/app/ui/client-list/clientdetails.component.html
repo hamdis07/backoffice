@@ -1,0 +1,28 @@
+<div class="client-details-container" *ngIf="clientData">
+    <div class="client-details-content">
+      <h2>Client Details</h2>
+      <div class="client-details">
+        <div class="details-text">
+          <p>ID: {{ clientData.id }}</p>
+          <p>Name: {{ clientData.nom }}</p>
+          <p>First Name: {{ clientData.prenom }}</p>
+          <p>Gender: {{ clientData.genre }}</p>
+          <p>Date of Birth: {{ clientData.date_de_naissance | date:'longDate' }}</p>
+          <p>Address: {{ clientData.Addresse }}</p>
+          <p>Occupation: {{ clientData.occupation }}</p>
+          <p>Social Status: {{ clientData.etat_social }}</p>
+          <p>Phone Number: {{ clientData.numero_telephone }}</p>
+          <p>Username: {{ clientData.user_name }}</p>
+          <p>Email: {{ clientData.email }}</p>
+        </div>
+        <div class="details-image" *ngIf="clientData.user_image">
+          <p>User Image:</p>
+          <img [src]="clientData.user_image" alt="User Image">
+        </div>
+      </div>
+      <div class="client-actions">
+        <button (click)="navigateToUpdateClient(clientData.id)">Update Client</button>
+        <button (click)="deleteClient(clientData.id)">Delete Client</button>
+      </div>
+    </div>
+</div>

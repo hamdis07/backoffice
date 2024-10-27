@@ -1,0 +1,114 @@
+<div class="message-container">
+  <!-- Sidebar Section -->
+  <div class="sidebar">
+    <!-- User Info -->
+    <div class="user-info">
+      <p>{{ loggedInAdmin?.user_name }}</p>
+      <div *ngIf="loggedInAdmin?.user_image">
+        <img [src]="loggedInAdmin?.user_image" alt="Image de l'utilisateur" style="max-width: 100px; max-height: 100px; border-radius: 50%;" />
+      </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input type="text" placeholder="Chercher..." [(ngModel)]="searchTerm" (ngModelChange)="searchMessages()" />
+      <button class="search-btn">
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
+
+    <!-- Tab Buttons (Messages / Contacts) -->
+    <div class="tab-buttons">
+      <button [ngClass]="{ 'active': selectedTab === 'messages' }" (click)="selectTab('messages')">Messages</button>
+      <button [ngClass]="{ 'active': selectedTab === 'contacts' }" (click)="selectTab('contacts')">Contacts</button>
+    </div>
+
+    <!-- Filter Checkboxes (Messages) -->
+    <div *ngIf="selectedTab === 'messages'" class="filter-section">
+      <label>
+        <input type="checkbox" [(ngModel)]="filterAll" (change)="filterMessages()" /> Tous
+      </label>
+      <label>
+        <input type="checkbox" [(ngModel)]="filterUnread" (change)="filterMessages()" /> Non lus
+      </label>
+      <label>
+        <input type="checkbox" [(ngModel)]="filterRead" (change)="filterMessages()" /> Lus
+      </label>
+    </div>
+
+    <!-- Messages List -->
+    <div *ngIf="selectedTab === 'messages'" class="message-list">
+      <div class="message-item" *ngFor="let user of users" (click)="viewMessage(user.user_id)">
+        <div class="message-avatar">
+          <img [src]="user.user_image" alt="User Image" />
+        </div>
+        <div class="message-content">
+          <p class="message-sender">{{ user.user_name }}</p>
+          <p class="message-preview">{{ user.last_message_content }}</p>
+          <p class="message-time">{{ user.last_message_time | date: 'short' }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Filter Section for Contacts -->
+    <div *ngIf="selectedTab === 'contacts'" class="filter-section">
+      <button (click)="loadallusers()">Afficher tous les utilisateurs</button>
+      <label>
+        <input type="checkbox" [(ngModel)]="filterAdmins" (change)="loadadmins()" /> Admins
+      </label>
+      <label>
+        <input type="checkbox" [(ngModel)]="filterClients" (change)="loadUsers()" /> Clients
+      </label>
+    </div>
+
+    <!-- Contacts List -->
+    <div *ngIf="selectedTab === 'contacts'" class="contacts-list">
+      <div class="contact-item" *ngFor="let user of users" (click)="selectUser(user)">
+        <div class="contact-avatar">
+          <img [src]="user.user_image" alt="User Image" />
+        </div>
+        <div class="contact-details">
+          <p>{{ user.nom }}</p>
+          <p>{{ user.user_name }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message Detail Section -->
+  <div class="message-detail" *ngIf="selectedUserMessages">
+    <h3>Messages échangés avec {{ selectedUser?.user_name }}</h3>
+
+    <!-- Ensure selectedUserMessages contains messages -->
+    <div *ngIf="selectedUserMessages && selectedUserMessages.length > 0">
+      <div *ngFor="let message of selectedUserMessages">
+        <div [ngClass]="{'received-message': message.type === 'received', 'sent-message': message.type === 'sent'}">
+          <h4 *ngIf="message.type === 'received'">{{ message.nom }} {{ message.prenom }}</h4>
+          <p>{{ message.description || message.content }}</p>
+
+          <!-- Display attachments (images and videos) -->
+          <!-- Display attachments (images and videos) -->
+<div *ngIf="message.attachments && message.attachments.length">
+  <div *ngFor="let attachment of message.attachments">
+    <img *ngIf="isImage(attachment)" [src]="attachment.url" alt="Pièce jointe" style="max-width: 300px; max-height: 300px;" />
+    <video *ngIf="isVideo(attachment)" [src]="attachment.url" controls style="max-width: 300px; max-height: 300px;"></video>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="reply-section" *ngIf="selectedUserMessages">
+      <h3>{{ selectedUser?.user_name }}</h3>
+      <textarea [(ngModel)]="replyContent" placeholder="Écrire un message..."></textarea>
+      <input type="file" (change)="onFileSelected($event)" />
+      <button (click)="replyToMessage()">Envoyer</button>
+    </div>
+    
+  </div>
+
+  <div class="message-detail" *ngIf="!selectedUser">
+    <p>Sélectionner un utilisateur pour voir les messages échangés</p>
+  </div>
+</div>

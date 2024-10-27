@@ -1,0 +1,58 @@
+<h1 class="popup-header">Edit Magasin</h1>
+<div class="dialog-content">
+  <form (ngSubmit)="save()" #editMagasinForm="ngForm" class="edit-form">
+    
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input id="nom" [(ngModel)]="magasin.nom" name="nom" required class="form-control" />
+      <div *ngIf="editMagasinForm.submitted && !magasin.nom" class="error">
+        Nom is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="adresse">Adresse</label>
+      <input id="adresse" [(ngModel)]="magasin.adresse" name="adresse" required class="form-control" />
+      <div *ngIf="editMagasinForm.submitted && !magasin.adresse" class="error">
+        Adresse is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="ville">Ville</label>
+      <input id="ville" [(ngModel)]="magasin.ville" name="ville" required class="form-control" />
+      <div *ngIf="editMagasinForm.submitted && !magasin.ville" class="error">
+        Ville is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="code_postal">Code Postal</label>
+      <input id="code_postal" [(ngModel)]="magasin.code_postal" name="code_postal" required class="form-control" />
+      <div *ngIf="editMagasinForm.submitted && !magasin.code_postal" class="error">
+        Code Postal is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="responsable">Responsable</label>
+      <input id="responsable" [(ngModel)]="magasin.responsable" name="responsable" required class="form-control" />
+      <div *ngIf="editMagasinForm.submitted && !magasin.responsable" class="error">
+        Responsable is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="telephone">Téléphone</label>
+      <input id="telephone" [(ngModel)]="magasin.telephone" name="telephone" required class="form-control" />
+      <div *ngIf="editMagasinForm.submitted && !magasin.telephone" class="error">
+        Téléphone is required.
+      </div>
+    </div>
+
+  </form>
+</div>
+<div class="dialog-actions">
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="!editMagasinForm.valid" class="btn save-btn">Save</button>
+  <button mat-stroked-button (click)="dialogRef.close()" class="btn cancel-btn">Cancel</button>
+</div>

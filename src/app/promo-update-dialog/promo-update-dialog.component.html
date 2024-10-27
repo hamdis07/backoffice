@@ -1,0 +1,46 @@
+<h2 class="popup-header">Update Promotion</h2>
+
+<form [formGroup]="promoForm" (ngSubmit)="submit()" class="popup-form">
+  <div class="form-group">
+    <label for="nom">Promo Name</label>
+    <input id="nom" formControlName="nom" class="form-control" />
+    <div *ngIf="promoForm.get('nom')?.invalid && promoForm.get('nom')?.touched">
+      <small class="error">Promo name is required and should be at least 3 characters long.</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="pourcentage_reduction">Discount Percentage</label>
+    <input
+      id="pourcentage_reduction"
+      formControlName="pourcentage_reduction"
+      type="number"
+      min="1"
+      class="form-control"
+    />
+    <div *ngIf="promoForm.get('pourcentage_reduction')?.invalid && promoForm.get('pourcentage_reduction')?.touched">
+      <small class="error">Enter a valid discount percentage (min 1%).</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="date_debut">Start Date</label>
+    <input id="date_debut" formControlName="date_debut" type="date" class="form-control" />
+    <div *ngIf="promoForm.get('date_debut')?.invalid && promoForm.get('date_debut')?.touched">
+      <small class="error">Start date is required.</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="date_fin">End Date</label>
+    <input id="date_fin" formControlName="date_fin" type="date" class="form-control" />
+    <div *ngIf="promoForm.get('date_fin')?.invalid && promoForm.get('date_fin')?.touched">
+      <small class="error">End date is required and must be after the start date.</small>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" (click)="close()" class="btn cancel-btn">Cancel</button>
+    <button type="submit" [disabled]="promoForm.invalid" class="btn update-btn">Update Promotion</button>
+  </div>
+</form>

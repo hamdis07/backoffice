@@ -1,0 +1,75 @@
+<br>
+<br>
+<div class="magasins-list-container">
+  <h2>Liste des Magasins</h2>
+  <div class="actions-bar">
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="search"
+        placeholder="Nom du magasin"
+        class="search-input"
+      />
+      <button (click)="searchByName(search)" class="search-button">
+        Rechercher
+      </button>
+    </div>
+    <button (click)="navigateToAddMagasin()" class="add-button">
+      + Ajouter Magasin
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+
+  <div *ngIf="magasins.length === 0">
+    Aucun magasin trouvé.
+  </div>
+
+  <table *ngIf="magasins.length > 0" class="admin-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Actions</th>
+        <th>Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let magasin of magasins">
+        <td>{{ magasin.id }}</td>
+        <td>{{ magasin.nom }}</td>
+        <td>{{ magasin.adresse }}</td>
+
+        <td class="actions-cell">
+          <button (click)="viewMagasin(magasin)" class="action-button">
+            <i class="fa fa-eye"></i>
+          </button>
+          <button (click)="editMagasin(magasin.id)" class="action-button">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button (click)="deleteMagasin(magasin.id)" class="action-button">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="pagination-button"
+    >
+      Précédent
+    </button>
+    <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+      class="pagination-button"
+    >
+      Suivant
+    </button>
+  </div>
+</div>

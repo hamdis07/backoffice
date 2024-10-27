@@ -1,0 +1,15 @@
+<h2 class="popup-header">Edit Category</h2>
+<form [formGroup]="categoryForm" (ngSubmit)="updateCategory()" class="popup-form">
+  <div class="form-group">
+    <label for="nom">Name</label>
+    <input id="nom" formControlName="nom" required class="form-control" />
+    <div *ngIf="categoryForm.get('nom')?.hasError('required') && categoryForm.get('nom')?.touched">
+      <small class="error">Name is required</small>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" (click)="dialogRef.close()" class="btn cancel-btn">Cancel</button>
+    <button type="submit" [disabled]="categoryForm.invalid" class="btn update-btn">Update</button>
+  </div>
+</form>

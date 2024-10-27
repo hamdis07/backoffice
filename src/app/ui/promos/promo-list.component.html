@@ -1,0 +1,74 @@
+<br><br>
+
+<div class="admin-list-container">
+    <h2>Liste des Promotions</h2>
+    
+    <div class="actions-bar">
+        <div class="search-container">
+            <input
+                type="text"
+                [(ngModel)]="search"
+                placeholder="Nom de la promotion"
+                class="search-input"
+            />
+            <button (click)="searchPromos()" class="search-button">Rechercher</button>
+        </div>
+        <button (click)="openCreateDialog()"class="add-button">Create Promo</button>
+    </div>
+    <hr class="title-underline" />
+<br>
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>pourcentage</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let promo of promos">
+                <td>{{ promo.id }}</td>
+                <td>{{ promo.nom }}</td>
+                <td>{{ promo.pourcentage_reduction }}</td>
+                <td>{{ promo.date_debut | date: 'dd/MM/yyyy' }}</td>
+                <td>{{ promo.date_fin | date: 'dd/MM/yyyy' }}</td>
+                <td class="actions-cell">
+                    <button (click)="openUpdateDialog(promo)" class="action-button">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <button (click)="deletePromo(promo.id)" class="action-button">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <button (click)="openApplyDialog(promo)" class="action-button">
+                        <i class="fa fa-check"></i> Appliquer
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="promos.length === 0">
+                <td colspan="6">Aucune promotion trouvée.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1"
+            class="pagination-button"
+        >
+            Précédent
+        </button>
+        <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+        <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages"
+            class="pagination-button"
+        >
+            Suivant
+        </button>
+    </div>
+</div>

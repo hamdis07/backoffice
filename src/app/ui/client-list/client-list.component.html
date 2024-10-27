@@ -1,0 +1,89 @@
+<br>
+<br>
+<div class="admin-list-container">
+  <h2>Liste Clients</h2>
+  <div class="actions-bar">
+    <div class="search-container">
+      <input
+        type="text"
+        [(ngModel)]="search"
+        placeholder="Rechercher par nom, prénom, ou téléphone"
+        class="search-input"
+      />
+      <button (click)="searchClients()" class="search-button">
+        Rechercher
+      </button>
+    </div>
+    <button (click)="navigateToAddClient()" class="add-button">
+      + Ajouter
+    </button>
+  </div>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Nom d'utilisateur</th>
+        <th>Email</th>
+        <th>Téléphone</th>
+        <th>Inscrit le</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of filteredClients">
+        <td>{{ client.id }}</td>
+        <td>{{ client.nom }}</td>
+        <td>{{ client.user_name }}</td>
+        <td>{{ client.email }}</td>
+        <td>{{ client.numero_telephone }}</td>
+        <td>{{ client.created_at | date: 'dd/MM/yyyy' }}</td>
+        <td>
+          <select [(ngModel)]="client.status" (change)="updateClientStatus(client.id, client.status)">
+            <option value="actif">Actif</option>
+            <option value="non actif">Non Actif</option>
+            <option value="en attente">En Attente</option>
+            <option value="bloqué">Bloqué</option>
+          </select>
+        </td>
+        <td class="actions-cell">
+          <button (click)="viewClient(client)" class="action-button">
+            <i class="fa fa-eye"></i>
+          </button>
+          <button (click)="editClient(client)" class="action-button">
+            <i class="fa fa-pencil"></i>
+          </button>
+          <button (click)="deleteClient(client.id)" class="action-button">
+            <i class="fa fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="filteredClients.length === 0 && clients.length > 0">
+        <td colspan="8">Aucun client trouvé avec les critères de recherche.</td>
+      </tr>
+      <tr *ngIf="clients.length === 0">
+        <td colspan="8">Aucun client trouvé.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination Controls -->
+  <div class="pagination">
+    <button
+      (click)="changePage(currentPage - 1)"
+      [disabled]="currentPage === 1"
+      class="pagination-button"
+    >
+      Précédent
+    </button>
+    <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+    <button
+      (click)="changePage(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+      class="pagination-button"
+    >
+      Suivant
+    </button>
+  </div>
+</div>

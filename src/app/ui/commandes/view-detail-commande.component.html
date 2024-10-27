@@ -1,0 +1,72 @@
+<div class="commande-details-container" *ngIf="commandeDetails">
+  <div class="commande-card">
+    <div class="commande-header">
+      <h1>Détails de la commande #{{ commandeDetails.commande_id }}</h1>
+      <h3>Statut: <strong>{{ commandeDetails.statut }}</strong></h3>
+    </div>
+
+    <div class="commande-content">
+      <!-- Informations de la commande -->
+      <section class="section-infos">
+        <h2>Informations de la commande</h2>
+        <ul class="commande-details-list">
+          <li><strong>Montant Total :</strong> {{ commandeDetails.montant_total | currency:'TND' }}</li>
+          <li><strong>Méthode de Paiement :</strong> {{ commandeDetails.methode_paiement }}</li>
+          <li><strong>Frais de Livraison :</strong> {{ commandeDetails.frais_livraison | currency:'TND' }}</li>
+        </ul>
+      </section>
+
+      <!-- Détails de la livraison -->
+      <section class="section-livraison" *ngIf="commandeDetails.details_livraison">
+        <h2>Détails de la livraison</h2>
+        <ul class="livraison-details-list">
+          <li><strong>Adresse :</strong> {{ commandeDetails.details_livraison.adresse }}</li>
+          <li><strong>Ville :</strong> {{ commandeDetails.details_livraison.ville }}</li>
+          <li><strong>Code Postal :</strong> {{ commandeDetails.details_livraison.code_postal }}</li>
+          <li><strong>Téléphone :</strong> {{ commandeDetails.details_livraison.telephone }}</li>
+          <li><strong>Description :</strong> {{ commandeDetails.details_livraison.description }}</li>
+        </ul>
+      </section>
+
+      <!-- Produits Commandés -->
+      <section class="section-produits" *ngIf="commandeDetails.produits_commandes.length > 0">
+        <h2>Produits Commandés</h2>
+        <ul class="produits-list">
+          <li *ngFor="let produit of commandeDetails.produits_commandes" class="produit-item">
+            <div class="produit-info">
+              <strong>{{ produit.nom }} ({{ produit.reference }})</strong>
+              <p>
+                <strong>Taille :</strong> {{ produit.taille }} | 
+                <strong>Couleur :</strong> {{ produit.couleur }} | 
+                <strong>Quantité :</strong> {{ produit.quantite }} | 
+                <strong>Prix Total :</strong> {{ produit.prix_total | currency: 'TND' }}
+              </p>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Détails du Paiement -->
+      <section class="section-paiement" *ngIf="commandeDetails.details_paiement">
+        <h2>Détails du Paiement</h2>
+        <ul class="paiement-details-list">
+          <li><strong>Adresse de Facturation :</strong> {{ commandeDetails.details_paiement.adresse_facturation }}</li>
+          <li><strong>Prix Total :</strong> {{ commandeDetails.details_paiement.prix_total | currency: 'TND' }}</li>
+        </ul>
+      </section>
+
+      <!-- Exporter PDF -->
+      <section class="export-section">
+        <button class="btn btn-primary" (click)="exportCommandePDF(commandeDetails.commande_id)">
+          Exporter en PDF
+        </button>
+      </section>
+    </div>
+  </div>
+</div>
+
+<ng-container *ngIf="error">
+  <div class="error-message">
+    <strong>Erreur :</strong> {{ error }}
+  </div>
+</ng-container>

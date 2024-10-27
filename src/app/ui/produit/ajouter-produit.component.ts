@@ -11,7 +11,7 @@ import { isWithinInterval, parseISO } from 'date-fns';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './ajouter-produit.component.html',
-  styleUrls: ['./ajouter-produit.component.scss']
+  styleUrls:   ['ajouter-produit.component.scss'],
 })
 export class AjouterProduitComponent implements OnInit {
   produitForm!: FormGroup;

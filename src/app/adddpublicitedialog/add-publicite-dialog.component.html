@@ -1,0 +1,78 @@
+<h2 class="dialog-title">Ajouter une Publicité</h2>
+
+<div class="dialog-content">
+  <form [formGroup]="publiciteForm" class="publicite-form">
+
+    <!-- Nom de la publicité -->
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input id="nom" formControlName="nom" class="form-control" placeholder="Nom de la publicité" required />
+      <small *ngIf="publiciteForm.get('nom')?.hasError('required') && publiciteForm.get('nom')?.touched" class="error">
+        Le nom est requis.
+      </small>
+    </div>
+
+    <!-- Détail de la publicité -->
+    <div class="form-group">
+      <label for="detail">Détail</label>
+      <textarea id="detail" formControlName="detail" class="form-control" placeholder="Détails de la publicité" required></textarea>
+      <small *ngIf="publiciteForm.get('detail')?.hasError('required') && publiciteForm.get('detail')?.touched" class="error">
+        Les détails sont requis.
+      </small>
+    </div>
+
+    <!-- Date de lancement -->
+    <div class="form-group">
+      <label for="date_lancement">Date de Lancement</label>
+      <input id="date_lancement" type="date" formControlName="date_lancement" class="form-control" required />
+      <small *ngIf="publiciteForm.get('date_lancement')?.hasError('required') && publiciteForm.get('date_lancement')?.touched" class="error">
+        La date de lancement est requise.
+      </small>
+    </div>
+
+    <!-- Date de fin -->
+    <div class="form-group">
+      <label for="date_fin">Date de Fin</label>
+      <input id="date_fin" type="date" formControlName="date_fin" class="form-control" required />
+      <small *ngIf="publiciteForm.get('date_fin')?.hasError('required') && publiciteForm.get('date_fin')?.touched" class="error">
+        La date de fin est requise.
+      </small>
+    </div>
+
+    <!-- Montant payé -->
+    <div class="form-group">
+      <label for="montant_paye">Montant Payé</label>
+      <input id="montant_paye" type="number" formControlName="montant_paye" class="form-control" placeholder="Montant payé en DT" required />
+      <small *ngIf="publiciteForm.get('montant_paye')?.hasError('required') && publiciteForm.get('montant_paye')?.touched" class="error">
+        Le montant est requis.
+      </small>
+      <small *ngIf="publiciteForm.get('montant_paye')?.hasError('min') && publiciteForm.get('montant_paye')?.touched" class="error">
+        Le montant doit être supérieur à 0.
+      </small>
+    </div>
+
+    <!-- Image Upload -->
+    <div class="file-upload">
+      <label for="imageUpload">Image</label>
+      <input id="imageUpload" type="file" (change)="onFileSelected($event, 'image')" />
+      <small *ngIf="imageError" class="error">{{ imageError }}</small>
+    </div>
+
+    <!-- Vidéo Upload -->
+    <div class="file-upload">
+      <label for="videoUpload">Vidéo</label>
+      <input id="videoUpload" type="file" (change)="onFileSelected($event, 'video')" accept="video/*" />
+    </div>
+
+    <!-- Affiche Upload -->
+    <div class="file-upload">
+      <label for="afficheUpload">Affiche</label>
+      <input id="afficheUpload" type="file" (change)="onFileSelected($event, 'affiche')" />
+    </div>
+
+    <div class="dialog-actions">
+      <button type="button" (click)="onCancel()" class="btn cancel-btn">Annuler</button>
+      <button type="button" (click)="onSave()" class="btn save-btn" [disabled]="publiciteForm.invalid">Sauvegarder</button>
+    </div>
+  </form>
+</div>

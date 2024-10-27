@@ -2,14 +2,16 @@
   <!-- Sidebar (Sidenav) -->
   <mat-sidenav #sidenav mode="side" class="custom-sidenav" opened="true">
     <div class="logo-container">
-      <img src="assets/logo.png" alt="Logo" class="logo">
+      <img src="assets/za.jpg" alt="logo" class="small-logo">
+      <span class="brand-name">Z-A Collection</span>
+
     </div>
 
     <!-- Navigation Links with Expandable Menus -->
     <mat-nav-list>
       <!-- Dashboard -->
       <a routerLinkActive="active" class="nav-link" routerLink="dashboard">
-        <mat-list-item>
+        <mat-list-item class="custom-list-item">
           <mat-icon mat-list-icon>dashboard</mat-icon>
           <span>Tableau de bord</span>
         </mat-list-item>
@@ -20,18 +22,18 @@
         <mat-expansion-panel-header>
           <mat-panel-title>
             <mat-icon mat-list-icon>group</mat-icon>
-            <span>Clients</span>
+            <span>liste des utulisateurs</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <a routerLinkActive="active" class="nav-link" routerLink="clients">
-          <mat-list-item>
+          <mat-list-item class="custom-list-item">
             <mat-icon mat-list-icon>person</mat-icon>
             <span>Liste des clients</span>
           </mat-list-item>
         </a>
         <a routerLinkActive="active" class="nav-link" routerLink="admins">
-          <mat-list-item>
-            <mat-icon mat-list-icon>person_add</mat-icon>
+          <mat-list-item class="custom-list-item">
+            <mat-icon mat-list-icon>person-admin</mat-icon>
             <span>Liste des administrateurs</span>
           </mat-list-item>
         </a>
@@ -46,28 +48,28 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <a routerLinkActive="active" class="nav-link" routerLink="produit">
-          <mat-list-item>
+          <mat-list-item class="custom-list-item">
             <mat-icon mat-list-icon>shopping_basket</mat-icon>
             <span>Liste des produits</span>
           </mat-list-item>
         </a>
         <a routerLinkActive="active" class="nav-link" routerLink="categories">
-          <mat-list-item>
+          <mat-list-item class="custom-list-item">
             <mat-icon mat-list-icon>category</mat-icon>
             <span>Catégories</span>
           </mat-list-item>
         </a>
         <a routerLinkActive="active" class="nav-link" routerLink="souscategories">
-          <mat-list-item>
+          <mat-list-item class="custom-list-item">
             <mat-icon mat-list-icon>layers</mat-icon>
-            <span>sous categories</span>
+            <span>Sous catégories</span>
           </mat-list-item>
         </a>
       </mat-expansion-panel>
 
       <!-- Dépôts -->
       <a routerLinkActive="active" class="nav-link" routerLink="depots">
-        <mat-list-item>
+        <mat-list-item class="custom-list-item">
           <mat-icon mat-list-icon>store</mat-icon>
           <span>Liste des dépôts</span>
         </mat-list-item>
@@ -75,7 +77,7 @@
 
       <!-- Messages -->
       <a routerLinkActive="active" class="nav-link" routerLink="messages">
-        <mat-list-item>
+        <mat-list-item class="custom-list-item">
           <mat-icon mat-list-icon>mail</mat-icon>
           <span>Liste des messages</span>
         </mat-list-item>
@@ -83,7 +85,7 @@
 
       <!-- Promos -->
       <a routerLinkActive="active" class="nav-link" routerLink="promos">
-        <mat-list-item>
+        <mat-list-item class="custom-list-item">
           <mat-icon mat-list-icon>local_offer</mat-icon>
           <span>Promotions</span>
         </mat-list-item>
@@ -91,7 +93,7 @@
 
       <!-- Commandes -->
       <a routerLinkActive="active" class="nav-link" routerLink="commande">
-        <mat-list-item>
+        <mat-list-item class="custom-list-item">
           <mat-icon mat-list-icon>shopping_basket</mat-icon>
           <span>Liste des commandes</span>
         </mat-list-item>
@@ -99,13 +101,15 @@
 
       <!-- Publicité -->
       <a routerLinkActive="active" class="nav-link" routerLink="publicite">
-        <mat-list-item>
+        <mat-list-item class="custom-list-item">
           <mat-icon mat-list-icon>campaign</mat-icon>
           <span>Publicité</span>
         </mat-list-item>
       </a>
+
+      <!-- Notifications -->
       <a routerLinkActive="active" class="nav-link" routerLink="notifications">
-        <mat-list-item>
+        <mat-list-item class="custom-list-item">
           <mat-icon mat-list-icon>notifications</mat-icon>
           <span>Notifications</span>
         </mat-list-item>
@@ -125,28 +129,35 @@
 
         <!-- User Information Section -->
         <div class="user-info">
-          <span class="user-name">Utilisateur connecté</span>
+          <mat-icon *ngIf="isLoggedIn">check_circle</mat-icon>
+          <mat-icon *ngIf="!isLoggedIn">cancel</mat-icon>
+          <span class="user-name">
+            {{ isLoggedIn ? 'Connecté' : 'Non connecté' }}
+          </span>
         </div>
+        
 
-        <!-- Authentication Links -->
-        <a routerLinkActive="active" class="nav-link" routerLink="login">
-          <mat-list-item>
+        <!-- Authentication Dropdown -->
+        <mat-menu #userMenu="matMenu">
+          <button mat-menu-item routerLink="login">
             <mat-icon mat-list-icon>login</mat-icon>
             <span>Connectez-vous</span>
-          </mat-list-item>
-        </a>
-        <a routerLinkActive="active" class="nav-link" routerLink="register">
-          <mat-list-item>
-            <mat-icon mat-list-icon>person_add</mat-icon>
-            <span>Inscription</span>
-          </mat-list-item>
-        </a>
-        <a routerLinkActive="active" class="nav-link" routerLink="logout">
-          <mat-list-item>
+          </button>
+          <button mat-menu-item routerLink="logout">
             <mat-icon mat-list-icon>logout</mat-icon>
             <span>Déconnexion</span>
-          </mat-list-item>
-        </a>
+          </button>
+          <a routerLinkActive="active" class="nav-link" routerLink="profile">
+            <mat-list-item>
+              <mat-icon mat-list-icon>person</mat-icon>
+              <span>Mon Profil</span>
+            </mat-list-item>
+          </a>
+        </mat-menu>
+
+        <button mat-icon-button [matMenuTriggerFor]="userMenu">
+          <mat-icon>account_circle</mat-icon>
+        </button>
       </mat-toolbar>
 
       <!-- Router outlet for dynamic content -->

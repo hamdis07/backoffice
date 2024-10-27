@@ -1,0 +1,34 @@
+<h1 class="popup-header">View Magasin Details</h1>
+<div class="dialog-content">
+  <div class="form-group">
+    <label for="nom">Nom</label>
+    <input id="nom" type="text" [value]="data.nom" readonly class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="adresse">Address</label>
+    <input id="adresse" type="text" [value]="data.adresse" readonly class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="ville">City</label>
+    <input id="ville" type="text" [value]="data.ville" readonly class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="responsable">responsable</label>
+    <input id="responsable" type="text" [value]="data.responsable" readonly class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="code_postal">Postal Code</label>
+    <input id="code_postal" type="text" [value]="data.code_postal" readonly class="form-control" />
+  </div>
+  <div class="form-group">
+    <label for="telephone">telephone</label>
+    <input id="telephone" type="text" [value]="data.telephone" readonly class="form-control" />
+  </div>
+  <!-- Add other fields based on the `Magasin` structure -->
+</div>
+<div class="dialog-actions">
+  <button type="button" (click)="dialogRef.close()" class="btn close-btn">Close</button>
+</div>

@@ -1,0 +1,78 @@
+<br>
+<br>
+<div class="admin-list-container">
+    <h2>Liste des Catégories</h2>
+    <div class="actions-bar">
+        <div class="search-container">
+            <input
+                type="text"
+                [(ngModel)]="search"
+                placeholder="Nom de la catégorie"
+                class="search-input"
+            />
+            <button (click)="searchCategories()" class="search-button">Rechercher</button>
+        </div>
+        <button (click)="addCategorie()" class="add-button">Ajouter une catégorie</button>
+    </div>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Actions</th>
+                <th>Informations</th> <!-- Added column for information button -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let categorie of categories">
+                <td>{{ categorie.id }}</td>
+                <td>{{ categorie.nom }}</td>
+                <td class="actions-cell">
+                    <button (click)="editCategorie(categorie.id)" class="action-button">
+                        <i class="fa fa-pencil"></i>
+                    </button>
+                    <button (click)="deleteCategorie(categorie.id)" class="action-button">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </td>
+                <td>
+                    <button (click)="openSubcategoryTab(categorie.id)" class="info-button">
+                        Informations
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="categories.length === 0">
+                <td colspan="4">Aucune catégorie trouvée.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Subcategory Details Section -->
+    <div *ngIf="selectedCategoryId !== null" class="subcategory-details">
+        <h3>Détails des Sous-catégories</h3>
+        <div *ngFor="let subcategory of getSubcategories(selectedCategoryId)">
+            <p>{{ subcategory.nom }}</p>
+            <!-- You can add more subcategory details here -->
+        </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1"
+            class="pagination-button"
+        >
+            Précédent
+        </button>
+        <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+        <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages"
+            class="pagination-button"
+        >
+            Suivant
+        </button>
+    </div>
+</div>

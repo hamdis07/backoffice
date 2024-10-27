@@ -1,0 +1,70 @@
+<br>
+<br>
+<div class="admin-list-container">
+    <h2>Liste des Sous-Catégories</h2>
+    <div class="actions-bar">
+        <div class="search-container">
+            <input
+                type="text"
+                [(ngModel)]="search"
+                placeholder="Nom de la sous-catégorie"
+                class="search-input"
+            />
+            <button (click)="searchCategories()" class="search-button">Rechercher</button>
+        </div>
+        <button (click)="addSousCategorie()" class="add-button">Ajouter une sous-catégorie</button>
+    </div>
+
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID Sous-Catégorie</th>
+                <th>Nom de la Catégorie</th>
+                <th>Nom de la Sous-Catégorie</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let categorie of sousCategories">
+                <ng-container *ngFor="let sousCategorie of categorie.sous_categories">
+                    <tr>
+                        <td>{{ sousCategorie.id }}</td>
+                        <td>{{ categorie.nom }}</td>
+                        <td>{{ sousCategorie.nom }}</td>
+                        <td class="actions-cell">
+                            <button (click)="editSousCategorie(sousCategorie.id)" class="action-button">
+                                <i class="fa fa-pencil"></i> 
+                            </button>
+                            <button (click)="deleteSousCategorie(sousCategorie.id)" class="action-button">
+                                <i class="fa fa-trash"></i> 
+                            </button>
+                           
+                        </td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+            <tr *ngIf="sousCategories.length === 0">
+                <td colspan="4">Aucune sous-catégorie trouvée.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1"
+            class="pagination-button"
+        >
+            Précédent
+        </button>
+        <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+        <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages"
+            class="pagination-button"
+        >
+            Suivant
+        </button>
+    </div>
+</div>

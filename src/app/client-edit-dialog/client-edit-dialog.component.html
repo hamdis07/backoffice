@@ -1,0 +1,115 @@
+<h1 class="popup-header">{{ data.isEditMode ? 'Modifier le Client' : 'Ajouter un Nouveau Client' }}</h1>
+
+<div class="client-form">
+  <form [formGroup]="clientForm" (ngSubmit)="save()">
+
+    <!-- Nom -->
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input id="nom" formControlName="nom" required placeholder="Entrez le nom" class="form-control" />
+      <small *ngIf="clientForm.get('nom')?.hasError('required')" class="error">Nom requis</small>
+    </div>
+
+    <!-- Prénom -->
+    <div class="form-group">
+      <label for="prenom">Prénom</label>
+      <input id="prenom" formControlName="prenom" required placeholder="Entrez le prénom" class="form-control" />
+      <small *ngIf="clientForm.get('prenom')?.hasError('required')" class="error">Prénom requis</small>
+    </div>
+
+    <!-- Genre -->
+    <div class="form-group">
+      <label for="genre">Genre</label>
+      <select id="genre" formControlName="genre" class="form-control">
+        <option value="">Non précisé</option>
+        <option value="Homme">Homme</option>
+        <option value="Femme">Femme</option>
+      </select>
+    </div>
+
+    <!-- Date de Naissance -->
+    <div class="form-group">
+      <label for="date_de_naissance">Date de Naissance</label>
+      <input type="date" id="date_de_naissance" formControlName="date_de_naissance" class="form-control" />
+    </div>
+
+    <!-- Adresse -->
+    <div class="form-group">
+      <label for="adresse">Adresse</label>
+      <input id="adresse" formControlName="adresse" placeholder="Entrez l'adresse" class="form-control" />
+    </div>
+
+    <!-- Occupation -->
+    <div class="form-group">
+      <label for="occupation">Occupation</label>
+      <input id="occupation" formControlName="occupation" placeholder="Entrez l'occupation" class="form-control" />
+    </div>
+
+    <!-- État Social -->
+    <div class="form-group">
+      <label for="etat_social">État Social</label>
+      <input id="etat_social" formControlName="etat_social" placeholder="Entrez l'état social" class="form-control" />
+    </div>
+
+    <!-- Numéro de Téléphone -->
+    <div class="form-group">
+      <label for="numero_telephone">Numéro de Téléphone</label>
+      <input id="numero_telephone" formControlName="numero_telephone" placeholder="Entrez le numéro de téléphone" class="form-control" />
+    </div>
+
+    <!-- Nom d'utilisateur -->
+    <div class="form-group">
+      <label for="user_name">Nom d'utilisateur</label>
+      <input id="user_name" formControlName="user_name" placeholder="Entrez le nom d'utilisateur" class="form-control" />
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" formControlName="email" placeholder="Entrez l'email" class="form-control" />
+    </div>
+
+    <!-- Mot de passe -->
+    <div class="form-group">
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" formControlName="password" placeholder="Entrez le mot de passe" class="form-control" />
+    </div>
+
+    <!-- Rôle -->
+    <div class="form-group">
+      <label for="role">Rôle</label>
+      <select id="role" formControlName="role" class="form-control">
+        <option value="admin">Admin</option>
+        <option value="superadmin">Super Admin</option>
+        <option value="client">Client</option>
+        <option value="operateur">Opérateur</option>
+        <option value="dispatcheur">Dispatcheur</option>
+        <option value="responsable_marketing">Responsable Marketing</option>
+      </select>
+    </div>
+
+    <!-- Statut -->
+    <div class="form-group">
+      <label for="status">Statut</label>
+      <select id="status" formControlName="status" class="form-control">
+        <option value="actif">Actif</option>
+        <option value="non actif">Non Actif</option>
+        <option value="en attente">En Attente</option>
+        <option value="bloqué">Bloqué</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="user_image">Image utilisateur</label>
+      <input type="file" id="user_image" (change)="onFileChange($event)" />
+      <!-- <small *ngIf="clientForm.get('user_image')?.hasError('nullable')" class="error">Image requise</small> -->
+    </div>
+    <p *ngIf="selectedFile">Fichier sélectionné : {{ selectedFile.name }}</p>
+    
+    <div class="form-actions">
+      <button type="button" (click)="cancel()" class="btn cancel-btn">Annuler</button>
+      <button type="submit" [disabled]="!clientForm.valid" class="btn save-btn">Enregistrer</button>
+    </div>
+
+  </form>
+</div>

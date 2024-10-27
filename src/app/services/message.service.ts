@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MessageService {
-  private apiUrl = 'http://localhost:8000/api/auth'; // Replace with your backend URL
+  private apiUrl = 'http://localhost:8000/api'; // Replace with your backend URL
 
   constructor(private http: HttpClient) {}
   private getHeaders(): HttpHeaders {
@@ -20,12 +20,14 @@ export class MessageService {
   }
   // Fetch a specific message by ID
   getMessageById(id: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/messages/${id}`, { headers: this.getHeaders() });
+    return this.http.get(`${this.apiUrl}/auth/messages/${id}`, { headers: this.getHeaders() });
   }
   getConversationWithUser(userId: number): Observable<any> {
-    return this.http.get<any>(`/api/messages/conversation/${userId}`);
+    return this.http.get<any>(`${this.apiUrl}/messages/user/${userId}`,{ headers: this.getHeaders() });
   }
-  
+  getUsersWithLastMessages(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/last-message`);
+  }
 
   // Reply to a specific message
   replyToMessage(idMessage: number, replyData: { reply: string }, files?: File[]): Observable<any> {
@@ -36,43 +38,45 @@ export class MessageService {
         formData.append('files[]', file, file.name);
       });
     }
-    return this.http.post(`${this.apiUrl}/messages/${idMessage}/reply`, formData, { headers: this.getHeaders() });
+    return this.http.post(`${this.apiUrl}/auth/messages/${idMessage}/reply`, formData, { headers: this.getHeaders() });
 }
 
   
 
   // Delete a specific message
   deleteMessage(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/messages/${id}`, { headers: this.getHeaders() });
+    return this.http.delete(`${this.apiUrl}/auth/messages/${id}`, { headers: this.getHeaders() });
   }
 
   // List all admins
   listAdmins(): Observable<any> {
-    return this.http.get(`${this.apiUrl}messages/admins`, { headers: this.getHeaders() });
+    return this.http.get(`${this.apiUrl}/messages/admins`, { headers: this.getHeaders() });
   }
 
   // List all clients with pagination
-  listClients(perPage: number = 10, page: number = 1): Observable<any> {
-    return this.http.get(`${this.apiUrl}messages/clients?per_page=${perPage}&page=${page}`, { headers: this.getHeaders() });
+  listClients(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/messages/clients`, { headers: this.getHeaders() });
   }
-
+  listallusers(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/messages/allusers`, { headers: this.getHeaders() });
+  }
   // Send a message to a specific client
   sendMessageToClients(userIds: number[], content: string, files: File[]): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('content', content);
-    formData.append('user_id', userIds.join(',')); // Join user IDs with commas
+    formData.append('user_ids', userIds.join(',')); // Join user IDs with commas
     if (files && files.length) {
       files.forEach((file) => {
-        formData.append('file[]', file, file.name);
+        formData.append('files[]', file, file.name);
       });
     }
-    return this.http.post(`${this.apiUrl}/messages/send`, formData, { headers: this.getHeaders() });
-}
+    return this.http.post(`${this.apiUrl}/auth/messages/send-to-client`, formData, { headers: this.getHeaders() });
+  }
 
 
   // List all messages
   listMessages(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/messages`, { headers: this.getHeaders() });
+    return this.http.get(`${this.apiUrl}/auth/messages`, { headers: this.getHeaders() });
   }
 
   // List unread messages
@@ -87,6 +91,10 @@ export class MessageService {
 
   // Search messages by username
   searchMessages(username: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/messages/search`, { username }, { headers: this.getHeaders() });
+    return this.http.post(`${this.apiUrl}/auth/messages/recherche/search`, { username }, { headers: this.getHeaders() });
   }
+  getMessagesByUser(userId: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/messages/user/${userId}`, { headers: this.getHeaders() });
+  }
+
 }

@@ -1,0 +1,101 @@
+<div class="commande-details-container" *ngIf="commandeDetails; else loading">
+    <mat-card class="commande-card">
+      <mat-card-header>
+        <mat-card-title>
+          <h1>Détails de la commande #{{ commandeDetails.commande_id }}</h1>
+        </mat-card-title>
+        <mat-card-subtitle>
+          Statut: <strong>{{ commandeDetails.statut }}</strong>
+        </mat-card-subtitle>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <!-- Section Détails Commande -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Informations de la commande
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <ul class="commande-details-list">
+            <li><strong>Montant Total :</strong> {{ commandeDetails.montant_total | currency }}</li>
+            <li><strong>Méthode de Paiement :</strong> {{ commandeDetails.methode_paiement }}</li>
+            <li><strong>Frais de Livraison :</strong> {{ commandeDetails.frais_livraison | currency }}</li>
+          </ul>
+        </mat-expansion-panel>
+  
+        <!-- Section Livraison -->
+        <mat-expansion-panel *ngIf="commandeDetails.details_livraison">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Détails de la livraison
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <ul class="livraison-details-list">
+            <li><strong>Adresse :</strong> {{ commandeDetails.details_livraison.adresse }}</li>
+            <li><strong>Ville :</strong> {{ commandeDetails.details_livraison.ville }}</li>
+            <li><strong>Code Postal :</strong> {{ commandeDetails.details_livraison.code_postal }}</li>
+            <li><strong>Téléphone :</strong> {{ commandeDetails.details_livraison.telephone }}</li>
+            <li><strong>Description :</strong> {{ commandeDetails.details_livraison.description }}</li>
+          </ul>
+        </mat-expansion-panel>
+  
+        <!-- Section Produits Commandés -->
+        <mat-expansion-panel *ngIf="commandeDetails.produits_commandes.length > 0">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Produits Commandés
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-list>
+            <mat-list-item *ngFor="let produit of commandeDetails.produits_commandes" class="produit-item">
+              <mat-icon mat-list-icon>shopping_cart</mat-icon>
+              <div mat-line>
+                <h4>{{ produit.nom }} ({{ produit.reference }})</h4>
+              </div>
+              <div mat-line>
+                <p>
+                  <strong>Taille :</strong> {{ produit.taille }}<br>
+                  <strong>Couleur :</strong> {{ produit.couleur }}<br>
+                  <strong>Quantité :</strong> {{ produit.quantite }}<br>
+                  <strong>Prix Total :</strong> {{ produit.prix_total | currency }}
+                </p>
+              </div>
+            </mat-list-item>
+          </mat-list>
+        </mat-expansion-panel>
+  
+        <!-- Section Paiement -->
+        <mat-expansion-panel *ngIf="commandeDetails.details_paiement">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Détails du Paiement
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <ul class="paiement-details-list">
+            <li><strong>Adresse de Facturation :</strong> {{ commandeDetails.details_paiement.adresse_facturation }}</li>
+            <li><strong>Prix Total :</strong> {{ commandeDetails.details_paiement.prix_total | currency }}</li>
+          </ul>
+        </mat-expansion-panel>
+  
+        <!-- Exporter PDF -->
+        <div class="export-section">
+          <button mat-raised-button color="primary" (click)="exportCommandePDF(commandeDetails.commande_id)">
+            <mat-icon>download</mat-icon> Exporter en PDF
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
+  <ng-template #loading>
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <p>Chargement des détails de la commande...</p>
+  </ng-template>
+  
+  <ng-container *ngIf="error">
+    <div class="error-message">
+      <mat-icon>error</mat-icon> {{ error }}
+    </div>
+  </ng-container>
+  

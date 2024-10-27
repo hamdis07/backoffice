@@ -1,0 +1,60 @@
+<h2 class="popup-header">Modifier la Publicité</h2>
+
+<div class="popup-form">
+  <form (ngSubmit)="onSave()">
+
+    <!-- Nom de la publicité -->
+    <div class="form-group">
+      <label for="nom">Nom</label>
+      <input id="nom" [(ngModel)]="publiciteData.nom" name="nom" placeholder="Nom de la publicité" required class="form-control" />
+    </div>
+
+    <!-- Détail de la publicité -->
+    <div class="form-group">
+      <label for="detail">Détail</label>
+      <textarea id="detail" [(ngModel)]="publiciteData.detail" name="detail" placeholder="Détails de la publicité" class="form-control" required></textarea>
+    </div>
+
+    <!-- Date de Lancement -->
+    <div class="form-group">
+      <label for="date_lancement">Date de Lancement</label>
+      <input id="date_lancement" [(ngModel)]="publiciteData.date_lancement" name="date_lancement" type="date" class="form-control" required />
+    </div>
+
+    <!-- Date de Fin -->
+    <div class="form-group">
+      <label for="date_fin">Date de Fin</label>
+      <input id="date_fin" [(ngModel)]="publiciteData.date_fin" name="date_fin" type="date" class="form-control" required />
+    </div>
+
+    <!-- Montant Payé -->
+    <div class="form-group">
+      <label for="montant_paye">Montant Payé</label>
+      <input id="montant_paye" [(ngModel)]="publiciteData.montant_paye" name="montant_paye" type="number" placeholder="Montant payé en €" class="form-control" required />
+    </div>
+
+    <!-- Image Upload -->
+    <div class="file-upload">
+      <label for="imageUpload">Image</label>
+      <input id="imageUpload" type="file" (change)="onFileChange($event, 'image')" />
+    </div>
+
+    <!-- Vidéo Upload -->
+    <div class="file-upload">
+      <label for="videoUpload">Vidéo</label>
+      <input id="videoUpload" type="file" (change)="onFileChange($event, 'video')" accept="video/*" />
+    </div>
+
+    <!-- Affiche Upload -->
+    <div class="file-upload">
+      <label for="afficheUpload">Affiche</label>
+      <input id="afficheUpload" type="file" (change)="onFileChange($event, 'affiche')" />
+    </div>
+
+    <div class="form-actions">
+      <button type="button" (click)="onCancel()" class="btn cancel-btn">Annuler</button>
+      <button type="submit" class="btn update-btn">Sauvegarder</button>
+    </div>
+
+  </form>
+</div>

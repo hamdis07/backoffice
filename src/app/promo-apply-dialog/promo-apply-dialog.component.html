@@ -1,0 +1,29 @@
+<h2 class="popup-header">Apply Existing Promotion</h2>
+
+<form [formGroup]="applyPromoForm" (ngSubmit)="submit()" class="popup-form">
+  <div class="form-group">
+    <label for="promo_id">Select Promotion</label>
+    <select id="promo_id" formControlName="promo_id" (change)="onPromoChange()" class="form-control">
+      <option value="" disabled>Select a promotion</option>
+      <option *ngFor="let promo of promos" [value]="promo.id">{{ promo.nom }}</option>
+    </select>
+    <div *ngIf="applyPromoForm.get('promo_id')?.invalid && applyPromoForm.get('promo_id')?.touched">
+      <small class="error">Promotion is required.</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="product_ids">Select Products</label>
+    <select id="product_ids" formControlName="product_ids" multiple class="form-control">
+      <option *ngFor="let product of products" [value]="product.id">{{ product.nom_produit }}</option>
+    </select>
+    <div *ngIf="applyPromoForm.get('product_ids')?.invalid && applyPromoForm.get('product_ids')?.touched">
+      <small class="error">At least one product must be selected.</small>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button type="button" (click)="close()" class="btn cancel-btn">Cancel</button>
+    <button type="submit" [disabled]="applyPromoForm.invalid" class="btn apply-btn">Apply Promotion</button>
+  </div>
+</form>

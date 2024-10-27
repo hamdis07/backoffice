@@ -1,0 +1,73 @@
+<form [formGroup]="commandeForm" (ngSubmit)="onSubmit()" class="commande-form">
+  <!-- Sélection d'un client -->
+  <div class="form-group">
+    <label for="user_id">Sélectionner un client :</label>
+    <select formControlName="user_id" class="form-control" (change)="onClientChange($event)">
+      <option value="">Choisissez un client</option>
+      <option *ngFor="let user of users" [value]="user.id">{{ user.user_name }}</option>
+    </select>
+    <div *ngIf="commandeForm.get('user_id')?.invalid && commandeForm.get('user_id')?.touched" class="error-message">
+      <span>Veuillez sélectionner un client.</span>
+    </div>
+  </div>
+
+  <!-- Informations de livraison pré-remplies -->
+  <div class="form-group">
+    <label for="adresse">Adresse :</label>
+    <input formControlName="adresse" type="text" class="form-control" placeholder="Adresse" />
+  </div>
+
+  <div class="form-group">
+    <label for="ville">Ville :</label>
+    <input formControlName="ville" type="text" class="form-control" placeholder="Ville" />
+  </div>
+  <div class="form-group">
+    <label for="description">description :</label>
+    <input formControlName="description" type="text" class="form-control" placeholder="description" />
+  </div>
+  <div class="form-group">
+    <label for="code_postal">Code Postal :</label>
+    <input formControlName="code_postal" type="text" class="form-control" placeholder="Code Postal" />
+  </div>
+
+  <div class="form-group">
+    <label for="telephone">Téléphone :</label>
+    <input formControlName="telephone" type="text" class="form-control" placeholder="Téléphone" />
+  </div>
+
+  <!-- Sélection de produits -->
+  <div formArrayName="produits" class="form-group">
+    <div *ngFor="let produit of produits.controls; let i = index" [formGroupName]="i" class="product-item">
+      <label for="produit_id">Sélectionner un produit :</label>
+      <select formControlName="id" class="form-control" (change)="onProduitChange(i)">
+        <option value="">Choisissez un produit</option>
+        <option *ngFor="let produit of availableProducts" [value]="produit.id">({{ produit.reference }})({{produit.Prix}}){{ produit.nom_produit }}</option>
+      </select>
+
+      <div class="product-details">
+        <label for="quantite">Quantité :</label>
+        <input formControlName="quantite" type="number" class="form-control" placeholder="Quantité" />
+
+        <label for="taille">Taille :</label>
+        <input formControlName="taille" type="text" class="form-control" placeholder="Taille" />
+
+        <label for="couleur">Couleur :</label>
+        <input formControlName="couleur" type="text" class="form-control" placeholder="Couleur" />
+
+        <button type="button" class="btn btn-danger" (click)="removeProduit(i)">Supprimer le produit</button>
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="addProduit()">+ Ajouter un produit</button>
+  </div>
+
+  <!-- Méthode de paiement -->
+  <div class="form-group">
+    <label for="methode_paiement">Méthode de paiement :</label>
+    <select formControlName="methode_paiement" class="form-control">
+      <option value="apres_livraison">Après Livraison</option>
+      <option value="par_carte">Par Carte</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-success" [disabled]="commandeForm.invalid || loading">Créer la commande</button>
+</form>

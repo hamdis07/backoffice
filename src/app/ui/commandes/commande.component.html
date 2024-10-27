@@ -1,0 +1,87 @@
+<br>
+<br>
+<div class="commande-list-container">
+    <h2>Liste Commandes</h2>
+  
+    <div class="actions-bar">
+      <div class="search-container">
+        <input
+          type="text"
+          [(ngModel)]="search"
+          placeholder="ID Commande"
+          class="search-input"
+        />
+        <button (click)="rechercherCommande()" class="search-button">
+          Rechercher
+        </button>
+      </div>
+      <button (click)="navigateTosubmitCommande()" class="add-button">
+        + Ajouter
+      </button>
+    </div>
+  
+    <table class="commande-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Client</th>
+          <th>Montant Total</th>
+          <th>Méthode Paiement</th>
+          <th>Statut</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let commande of commandes">
+          <td>{{ commande.commande_id }}</td>
+          <td>
+            {{ commande.user_details.prenom }} {{ commande.user_details.nom }} <br />
+            {{ commande.user_details.user_name }}
+          </td>
+          <td>{{ commande.montant_total | currency: 'DT' }}</td>
+          <td >
+           {{commande.methode_paiement}}
+          </td>
+          <td>
+            <select [(ngModel)]="commande.statut" (change)="changeStatut(commande.commande_id, commande.statut)">
+              <option value="en attente">En Attente</option>
+              <option value="traité">Traité</option>
+              <option value="expédié">Expédié</option>
+              <option value="livré">Livré</option>
+            </select>
+          </td>
+          <td class="actions-cell">
+            <button (click)="viewCommandeDetails(commande.commande_id)" class="action-button">
+                <i class="fa fa-eye"></i>
+              </button>
+            <button (click)="deleteCommande(commande.commande_id)" class="action-button">
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="commandes.length === 0">
+          <td colspan="6">Aucune commande trouvée.</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Pagination Controls -->
+    <div class="pagination">
+      <button
+        (click)="changePage(currentPage - 1)"
+        [disabled]="currentPage === 1"
+        class="pagination-button"
+      >
+        Précédent
+      </button>
+      <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+      <button
+        (click)="changePage(currentPage + 1)"
+        [disabled]="currentPage === totalPages"
+        class="pagination-button"
+      >
+        Suivant
+      </button>
+    </div>
+  </div>
+  

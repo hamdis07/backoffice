@@ -1,0 +1,89 @@
+<div class="admin-list-container">
+    <br>
+    <br>
+    <h2>Liste des Publicités</h2>
+
+    <!-- Barre d'actions avec recherche -->
+    <div class="actions-bar">
+        <!-- <div class="search-container">
+            <input
+                type="text"
+                [(ngModel)]="search"
+                placeholder="Rechercher une publicité"
+                class="search-input"
+            />
+            <button (click)="searchPublicites()" class="search-button">Rechercher</button>
+        </div> -->
+        <button (click)="createPublicite()" class="add-button">Ajouter une publicité</button>
+    </div>
+
+    <!-- Table des publicités -->
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Détails</th>
+                <th>Date de lancement</th>
+                <th>Date de fin</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let publicite of publicites">
+                <tr>
+                    <td>{{ publicite.id }}</td>
+                    <td>{{ publicite.nom }}</td>
+                    <td>{{ publicite.detail }}</td>
+                    <td>{{ publicite.date_lancement }}</td>
+                    <td>{{ publicite.date_fin }}</td>
+                    <td>
+                        <img
+                            *ngIf="publicite.image"
+                            [src]="publicite.image"
+                            alt="{{ publicite.nom }}"
+                            width="50"
+                        />
+                    </td>
+                    <td class="actions-cell">
+                        <!-- Bouton pour afficher la publicité (fa-eye) -->
+                        <button (click)="viewPublicite(publicite.id)" class="action-button">
+                            <i class="fa fa-eye"></i> 
+                        </button>
+                        <!-- Bouton pour modifier la publicité -->
+                        <button (click)="editPublicite(publicite.id)" class="action-button">
+                            <i class="fa fa-pencil"></i>
+                        </button>
+                        <!-- Bouton pour supprimer la publicité -->
+                        <button (click)="deletePublicite(publicite.id)" class="action-button">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            </ng-container>
+            <tr *ngIf="publicites.length === 0">
+                <td colspan="7">Aucune publicité trouvée.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+        <button
+            (click)="changePage(currentPage - 1)"
+            [disabled]="currentPage === 1"
+            class="pagination-button"
+        >
+            Précédent
+        </button>
+        <span>Page {{ currentPage }} sur {{ totalPages }}</span>
+        <button
+            (click)="changePage(currentPage + 1)"
+            [disabled]="currentPage === totalPages"
+            class="pagination-button"
+        >
+            Suivant
+        </button>
+    </div>
+</div>

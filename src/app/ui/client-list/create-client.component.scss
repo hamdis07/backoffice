@@ -1,0 +1,63 @@
+.admin-form-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .admin-form .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .admin-form .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+  
+  .admin-form .form-group input,
+  .admin-form .form-group select,
+  .admin-form .form-group textarea {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .admin-form .form-control-file {
+    padding: 0;
+    border: none;
+  }
+  
+  .admin-form .button-group {
+    text-align: right;
+  }
+  
+  .admin-form .btn {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .admin-form .btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: white;
+  }
+  
+  .admin-form .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    color: white;
+  }
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+  

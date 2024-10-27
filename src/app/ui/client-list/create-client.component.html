@@ -1,0 +1,81 @@
+<div class="admin-form-container">
+  <form (ngSubmit)="CreateClient()" #clientForm="ngForm" class="admin-form">
+    <div class="form-group">
+      <label for="nom">Nom:</label>
+      <input type="text" [(ngModel)]="client.nom" name="nom" required placeholder="Nom" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="prenom">Prenom:</label>
+      <input type="text" [(ngModel)]="client.prenom" name="prenom" required placeholder="Prenom" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" [(ngModel)]="client.email" name="email" required placeholder="Email" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Mot de passe:</label>
+      <input type="password" [(ngModel)]="client.password" name="password" required placeholder="Mot de passe" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="genre">Genre:</label>
+      <select [(ngModel)]="client.genre" name="genre" required class="form-control">
+        <option value="" disabled selected>Select Genre</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+        <option value="femme">Femme</option>
+        <option value="homme">Homme</option>
+        <option value="autre">Autre</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="date_de_naissance">Date de Naissance:</label>
+      <input type="date" [(ngModel)]="client.date_de_naissance" name="date_de_naissance" required class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="addresse">Addresse:</label>
+      <input type="text" [(ngModel)]="client.addresse" name="addresse" required placeholder="Addresse" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="occupation">Occupation:</label>
+      <input type="text" [(ngModel)]="client.occupation" name="occupation" required placeholder="Occupation" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="etat_social">État Social:</label>
+      <input type="text" [(ngModel)]="client.etat_social" name="etat_social" required placeholder="État Social" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="numero_telephone">Numéro de Téléphone:</label>
+      <input type="text" [(ngModel)]="client.numero_telephone" name="numero_telephone" required placeholder="Numéro de Téléphone" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="user_name">Nom d'utilisateur:</label>
+      <input type="text" [(ngModel)]="client.user_name" name="user_name" required placeholder="Nom d'utilisateur" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="role">Role:</label>
+      <input type="text" [(ngModel)]="client.role" name="role" required placeholder="Role" class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label for="user_image">Image:</label>
+      <input type="file" (change)="onFileSelected($event)" name="user_image" class="form-control-file" />
+    </div>
+
+    <div class="form-group button-group">
+      <button type="submit" class="btn btn-primary">Créer</button>
+    </div>
+  </form>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+</div>

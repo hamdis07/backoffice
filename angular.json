@@ -45,16 +45,17 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js"
+                 "zone.js",
+                 "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+           "assets": [
+         
+                "src/favicon.ico",
+                "src/assets"
+               ],
+
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.scss" ,
@@ -112,7 +113,7 @@
         }
       }
     }
-  },
+  }, 
   "cli": {
     "analytics": "bace3a9c-6109-4280-ab4a-1688edb719ba"
   }

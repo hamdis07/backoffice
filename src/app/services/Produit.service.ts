@@ -75,7 +75,7 @@ export class ProduitService {
         })
       );
 }
-
+  
 
   ajouterPromos(idProduit: number, promoData: any): Observable<any> {
     const headers = this.getHeaders();

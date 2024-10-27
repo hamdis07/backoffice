@@ -1,0 +1,34 @@
+<div class="login-card">
+    <h2>Login</h2>
+    <form (ngSubmit)="login()">
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input 
+          type="email" 
+          id="email" 
+          [(ngModel)]="credentials.email" 
+          name="email" 
+          required
+          class="form-control"
+        />
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input 
+          type="password" 
+          id="password" 
+          [(ngModel)]="credentials.password" 
+          name="password" 
+          required
+          class="form-control"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+    
+    <div class="options">
+      <a href="/forgot-password" class="link">Mot de passe oublié ?</a>
+      <p>Pas encore inscrit ? <a href="/register" class="link">Inscrivez-vous</a></p>
+    </div>
+  </div>
+  

@@ -1,37 +1,36 @@
-<div *ngIf="(produit$ | async) as produit">
+<div *ngIf="produit">
   <h2>Détails du produit</h2>
   
   <!-- Informations générales du produit -->
   <div>
-    <p>{{ produit.produit.nom_produit }}</p>
-    <p><strong>Référence:</strong> {{ produit.produit.references }}</p>
-    <p><strong>Description:</strong> {{ produit.produit.description }}</p>
-    <p><strong>Prix initial:</strong> {{ produit.produit.prix_initial }} €</p>
-    <p><strong>Prix:</strong> {{ produit.produit.prix }} €</p>
-    <p><strong>Composition:</strong> {{ produit.produit.composition }}</p>
-    <p><strong>Entretien:</strong> {{ produit.produit.entretien }}</p>
-    <p><strong>Mots-clés:</strong> {{ produit.produit.mots_cles }}</p>
-    <p><strong>Catégorie:</strong> {{ produit.categories || 'Non spécifié' }}</p>
-    <p><strong>Sous-catégorie:</strong> {{ produit.souscategories || 'Non spécifié' }}</p>
-    <p><strong>Genre:</strong> {{ produit.genre || 'Non spécifié' }}</p>
-  
-    <p><strong>Date de création:</strong> {{ produit.produit.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
-    <p><strong>Date de mise à jour:</strong> {{ produit.produit.updated_at | date:'dd/MM/yyyy HH:mm' }}</p>
+    <p>{{ produit.nom_produit }}</p>
+    <p><strong>Référence:</strong> {{ produit.references }}</p>
+    <p><strong>Description:</strong> {{ produit.description }}</p>
+    <p><strong>Prix initial:</strong> {{ produit.prix_initial }} DT</p>
+    <p><strong>Prix:</strong> {{ produit.prix }} DT</p>
+    <p><strong>Composition:</strong> {{ produit.composition }}</p>
+    <p><strong>Entretien:</strong> {{ produit.entretien }}</p>
+    <p><strong>Mots-clés:</strong> {{ produit.mots_cles }}</p>
+    <p><strong>Catégorie:</strong> {{ categories || 'Non spécifié' }}</p>
+    <p><strong>Sous-catégorie:</strong> {{ souscategories || 'Non spécifié' }}</p>
+    <p><strong>Genre:</strong> {{ genre || 'Non spécifié' }}</p>
+    <p><strong>Date de création:</strong> {{ produit.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
+    <p><strong>Date de mise à jour:</strong> {{ produit.updated_at | date:'dd/MM/yyyy HH:mm' }}</p>
   
     <!-- URL de l'image -->
-    <div *ngIf="produit.produit.image_url">
+    <div *ngIf="produit.image_url">
       <h3>Image URL</h3>
-      <img [src]="produit.produit.image_url" alt="Image du produit" style="max-width: 300px; max-height: 300px;" />
+      <img [src]="produit.image_url" alt="Image du produit" style="max-width: 300px; max-height: 300px;" />
     </div>
   
-    <!-- Images -->
+    <!-- Images supplémentaires -->
     <div>
       <h2>Images du produit</h2>
-      <div *ngFor="let image of produit.images">
-        <img [src]="image.url" [alt]="image.alt" style="max-width: 300px; max-height: 300px;"/>
+      <div *ngFor="let image of images">
+        <img [src]="produit.images.chemin_image" [alt]="image.alt" style="max-width: 300px; max-height: 300px;" />
       </div>
     </div>
-  
+    
     <!-- Quantités disponibles -->
     <div>
       <h2>Quantités disponibles</h2>
@@ -45,7 +44,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let quantite of produit.quantites">
+          <tr *ngFor="let quantite of quantites">
             <td>{{ quantite.magasin }}</td>
             <td>{{ quantite.quantite }}</td>
             <td>{{ quantite.taille }}</td>
@@ -56,12 +55,12 @@
     </div>
   
     <!-- Promo -->
-    <div *ngIf="produit.produit.promos">
+    <div *ngIf="promos">
       <h3>Promotion</h3>
-      <p><strong>Nom:</strong> {{ produit.produit.promos.nom }}</p>
-      <p><strong>Réduction:</strong> {{ produit.produit.promos.pourcentage_reduction }}%</p>
-      <p><strong>Date de début:</strong> {{ produit.produit.promos.date_debut | date }}</p>
-      <p><strong>Date de fin:</strong> {{ produit.produit.promos.date_fin | date }}</p>
+      <p><strong>Nom:</strong> {{ promos.nom }}</p>
+      <p><strong>Réduction:</strong> {{ promos.pourcentage_reduction }}%</p>
+      <p><strong>Date de début:</strong> {{ promos.date_debut | date }}</p>
+      <p><strong>Date de fin:</strong> {{ promos.date_fin | date }}</p>
     </div>
   </div>
 </div>

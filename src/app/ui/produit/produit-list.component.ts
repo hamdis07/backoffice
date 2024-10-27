@@ -156,12 +156,14 @@ export class ProduitListComponent implements OnInit {
 
   searchProduits(searchTerm: string): void {
     if (searchTerm) {
-      // Apply search logic, e.g., filter products by name or other criteria
+      const lowerSearchTerm = searchTerm.toLowerCase();
+      
       this.produits = this.produits.filter(product => 
-        product.nom_produit.toLowerCase().includes(searchTerm.toLowerCase())
+        product.nom_produit.toLowerCase().includes(lowerSearchTerm) ||
+        product.references.toLowerCase().includes(lowerSearchTerm) ||
+        (product.mots_cles && product.mots_cles.toLowerCase().includes(lowerSearchTerm))
       );
     } else {
-      // If search is empty, reload all products
       this.loadProduits();
     }
   }
@@ -185,8 +187,8 @@ export class ProduitListComponent implements OnInit {
   openDialog(id: number): void {
     const dialogRef = this.dialog.open(ProduitModifierComponent, {
       // Ensure productId is correctly set
-     width: '1000px',
-     height:'1000px',
+     width: '700px',
+     height:'600px',
       data: { id: id } // Pass the product ID to the dialog
     });
   

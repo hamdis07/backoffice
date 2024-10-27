@@ -9,7 +9,9 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './register.component.html',
-  styles: []
+  styleUrls: ['./register.component.css']
+
+ 
 })
 export class RegisterComponent {
   user = {

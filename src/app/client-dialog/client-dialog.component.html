@@ -1,0 +1,33 @@
+<div class="client-details-container" *ngIf="clientData">
+  <div class="client-details-header">
+    <h2>{{ clientData.nom }} {{ clientData.prenom }}'s Profile</h2>
+    <!-- <button class="btn edit-btn" (click)="navigateToUpdateClient(clientData.id)">Edit Profile</button>
+    <button class="btn delete-btn" (click)="deleteClient(clientData.id)">Delete Client</button> -->
+  </div>
+  <div class="client-details-content">
+    <div class="client-info">
+      <div class="info-group">
+        <h4>Basic Information</h4>
+        <p><strong>ID:</strong> {{ clientData.id }}</p>
+        <p><strong>Full Name:</strong> {{ clientData.nom }} {{ clientData.prenom }}</p>
+        <p><strong>Gender:</strong> {{ clientData.genre }}</p>
+        <p><strong>Date of Birth:</strong> {{ clientData.date_de_naissance | date:'longDate' }}</p>
+        <p><strong>Occupation:</strong> {{ clientData.occupation }}</p>
+      </div>
+      <div class="info-group">
+        <h4>Contact Details</h4>
+        <p><strong>Phone Number:</strong> {{ clientData.numero_telephone }}</p>
+        <p><strong>Email:</strong> {{ clientData.email }}</p>
+        <p><strong>Address:</strong> {{ clientData.Addresse }}</p>
+      </div>
+      <div class="info-group">
+        <h4>Other Information</h4>
+        <p><strong>Username:</strong> {{ clientData.user_name }}</p>
+        <p><strong>Social Status:</strong> {{ clientData.etat_social }}</p>
+      </div>
+    </div>
+    <div class="client-image" *ngIf="clientData.user_image">
+      <img [src]="clientData.user_image" alt="Client Image">
+    </div>
+  </div>
+</div>
